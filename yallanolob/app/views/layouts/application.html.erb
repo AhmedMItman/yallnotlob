@@ -1,18 +1,195 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>Yallanolob</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Yalla Notlob</title>
     <%= csrf_meta_tags %>
 
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+<!--     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %> -->
+<!--     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %> -->
+
+    <%= stylesheet_link_tag "bootstrap", media: "all" %>
+    <%= stylesheet_link_tag "style", media: "all" %>
+    <%= stylesheet_link_tag "font-awesome", media: "all" %>
+
   </head>
-
   <body>
-  <p class="notice"><%= notice %></p>
-  <p class="alert"><%= alert %></p>
 
-  <%= yield %>
-  <%= link_to('Logout',destroy_user_session_path,method: :delete) %>
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">Yalla Notlob</a>
+      </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li class="<%= yield :hm %>"><a href="/"><i class="fa fa-fw fa-home"></i> Home<span class="sr-only">(current)</span></a></li>
+          <li><a href="/friends"><i class="fa fa-fw fa-users"></i> Friends</a></li>
+          <li class="<%= yield :grpscls %>"><a href="/groups"><i class="fa fa-fw fa-cubes"></i> Groups</a></li>
+          <li class="<%= yield :rdrscls %>"><a href="/orders"><i class="fa fa-fw fa-list-ul"></i> Orders</a></li>
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right">
+
+            <% if user_signed_in? %>
+
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-fw fa-bell"></i> Notifications <span class="badge badge-alert">5</span> <span class="caret"></span></a>
+                <ul class="dropdown-menu msgs-menu">
+                  <div class="msgs-container">
+
+                    <div class="media">
+                      <div class="pull-left">
+                        <img src="images/marei.jpg">
+                      </div>
+
+                      <div class="media-body">
+                        Ahmed joined your breakfast <a href="#">Order</a>
+
+                        <small class="text-muted msg-time"><i class="fa fa-clock-o"></i> 23-02-2016 7:30 PM</small>
+
+                      </div>
+
+                    </div>
+
+                    <div class="media">
+                      <div class="pull-left">
+                        <img src="images/unknown.jpg">
+                      </div>
+
+                      <div class="media-body">
+                        Islam invited you to his order <a href="#">Join</a>
+
+                        <small class="text-muted msg-time"><i class="fa fa-clock-o"></i> 23-02-2016 7:30 PM</small>
+
+                      </div>
+                    </div>
+
+
+                    <div class="media">
+                      <div class="pull-left">
+                        <img src="images/marei.jpg">
+                      </div>
+
+                      <div class="media-body">
+                        Reem joined your lunch <a href="#">Order</a>
+
+                        <small class="text-muted msg-time"><i class="fa fa-clock-o"></i> 23-02-2016 7:30 PM</small>
+
+                      </div>
+                    </div>
+
+                    <div class="media">
+                      <div class="pull-left">
+                        <img src="images/unknown.jpg">
+                      </div>
+
+                      <div class="media-body">
+                        Areej invited you to her order <a href="#">Join</a>
+
+                        <small class="text-muted msg-time"><i class="fa fa-clock-o"></i> 23-02-2016 7:30 PM</small>
+
+                      </div>
+                    </div>
+
+                    <div class="media">
+                      <div class="pull-left">
+                        <img src="images/marei.jpg">
+                      </div>
+
+                      <div class="media-body">
+                        Aamenah joined your breakfast <a href="#">Order</a>
+
+                        <small class="text-muted msg-time"><i class="fa fa-clock-o"></i> 23-02-2016 7:30 PM</small>
+
+                      </div>
+                    </div>
+
+                    <div class="media">
+                      <div class="pull-left">
+                        <img src="images/marei.jpg">
+                      </div>
+
+                      <div class="media-body">
+                        Reem joined your lunch <a href="#">Order</a>
+
+                        <small class="text-muted msg-time"><i class="fa fa-clock-o"></i> 23-02-2016 7:30 PM</small>
+
+                      </div>
+                    </div>
+
+                    <div class="media">
+                      <div class="pull-left">
+                        <img src="images/unknown.jpg">
+                      </div>
+
+                      <div class="media-body">
+                        Areej invited you to her order <a href="#">Join</a>
+
+                        <small class="text-muted msg-time"><i class="fa fa-clock-o"></i> 23-02-2016 7:30 PM</small>
+
+                      </div>
+                    </div>
+
+                  </div> <!-- ./msgs-container -->
+
+
+                  <li role="separstator" class="divider grey"></li>
+                  <li class="text-center"><a href="#"><i class="fa fa-envelope"></i> View all notifications </a></li>
+                </ul>
+              </li>
+
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <img src="images/marei.jpg"> </span> <%= current_user.name %><span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#"><i class="fa fa-fw fa-user"></i> Profile</a></li>
+                  <li><a href="#"><i class="fa fa-fw fa-gear"></i>  Account Settings</a></li>
+                  <li role="separator" class="divider"></li>
+
+                  <li><%= link_to('Logout', destroy_user_session_path, method: :delete) %></li>
+                </ul>
+              </li>
+
+            <% else %>
+              <li>
+              <%= link_to('Login', new_user_session_path)  %>  
+              </li>
+              <li>
+                <%= link_to('Register', new_user_registration_path)  %> 
+              </li>
+            <% end %>
+
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+  </nav>
+
+  <div class="container">
+<!--     <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p> -->
+    <%= yield %>
+  </div><!-- /.container -->
+
+  <footer class="navbar-fixed-bottom">
+    <div class="container text-center">
+      &copy; All rights reserved ITI Cloudians 38. 2018
+    </div>
+  </footer>
+
+    <!-- Load Javascript -->
+    <%= javascript_include_tag "application" %>
+    <%= javascript_include_tag "jquery" %>
+    <%= javascript_include_tag "cable" %>
+    <%= javascript_include_tag "bootstrap" %>
+    <%= javascript_include_tag "app" %>
   </body>
 </html>
