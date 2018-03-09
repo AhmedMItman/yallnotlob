@@ -10,12 +10,67 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180308172625) do
+ActiveRecord::Schema.define(version: 20180309114046) do
 
   create_table "groups", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "groups_users", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint "user_id", null: false
+    t.bigint "group_id", null: false
+    t.index ["group_id", "user_id"], name: "index_groups_users_on_group_id_and_user_id"
+    t.index ["user_id", "group_id"], name: "index_groups_users_on_user_id_and_group_id"
+  end
+
+  create_table "items", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint "user_id"
+    t.bigint "order_id"
+    t.integer "quantity"
+    t.float "price", limit: 24
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_items_on_order_id"
+    t.index ["user_id"], name: "index_items_on_user_id"
+  end
+
+  create_table "notifications", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "message"
+    t.string "from"
+    t.string "type"
+    t.integer "orderId"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "notifications_users", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint "user_id", null: false
+    t.bigint "notification_id", null: false
+    t.index ["notification_id", "user_id"], name: "index_notifications_users_on_notification_id_and_user_id"
+    t.index ["user_id", "notification_id"], name: "index_notifications_users_on_user_id_and_notification_id"
+  end
+
+  create_table "orders", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint "user_id"
+    t.string "resturant"
+    t.string "menu"
+    t.string "type"
+    t.string "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_orders_on_user_id"
+  end
+
+  create_table "user_notifications", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint "user_id"
+    t.bigint "notification_id"
+    t.boolean "seen"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["notification_id"], name: "index_user_notifications_on_notification_id"
+    t.index ["user_id"], name: "index_user_notifications_on_user_id"
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

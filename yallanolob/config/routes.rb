@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  resources :notifications
+  resources :user_notifications
+  resources :items
+  resources :orders
   devise_for :users
   resources :groups
   resources :users

@@ -1,0 +1,22 @@
+<%= form_with(model: user_notification, local: true) do |form| %>
+  <% if user_notification.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(user_notification.errors.count, "error") %> prohibited this user_notification from being saved:</h2>
+
+      <ul>
+      <% user_notification.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :seen %>
+    <%= form.check_box :seen, id: :user_notification_seen %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
