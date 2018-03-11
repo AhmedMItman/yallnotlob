@@ -1,2 +1,34 @@
-<h1>Friends#index</h1>
-<p>Find me in app/views/friends/index.html.erb</p>
+<h1>Friends</h1>
+<!--http://www.korenlc.com/creating-a-simple-search-in-rails-4/-->
+<%= form_tag(friends_path, :method => "get",id: "search-form") do%>
+  <%= email_field_tag :search,params[:search],placeholder: "Search Friend"%>
+  <%= submit_tag "Search" %>
+<% end %>
+<% if @friends.present? %>
+  <p>Done <%= params[:search] %>.</p>
+<%else%>
+  <p>There are no posts containing the term(s) <%= params[:search] %>.</p>
+<%end%>
+
+<table>
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th colspan="3"></th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @friends.each do |user| %>
+    <tr>
+      <td><%= user.name %></td>
+      <td><% link_to 'Show', user %></td>
+      <td><%= link_to 'Remove', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<br>
+
+
