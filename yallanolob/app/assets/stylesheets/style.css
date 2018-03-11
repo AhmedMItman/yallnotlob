@@ -43,6 +43,55 @@ body{
 .navbar-default .navbar-toggle .icon-bar{
 	background: #FFF;
 }
+.pnl-head{
+	/*background: #2386C8 !important;*/
+	background: #fff !important;
+	color: black !important
+}
+.lft{
+	float: right;
+}
+
+.add-grp-pnl{
+	padding-top: 30px;
+}
+#add-grp-pnl{
+	margin-bottom: 0;
+}
+
+.grp-lbl{
+	padding-top: 6px
+}
+
+.down-pnl{
+	margin-top: 0 !important;
+}
+
+.grp-item-btn{
+	font-size: 20px !important;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+.btn-remove{
+	color: #d9534f;
+}
+
+.btn-edit{
+	color: #2386C8;
+}
+
+.btn-add{
+	color: #444;
+}
+
+
+button.list-group-item:hover{
+	background: #f8f8f8;
+}
+.full{
+	width: 100%;
+}
 
 .nav>li>a>img{
 	max-width: 19px;

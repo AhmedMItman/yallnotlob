@@ -2,7 +2,60 @@
 
 <p id="notice"><%= notice %></p>
 
-<h1>Groups</h1>
+<div id="add-grp-pnl" class="panel panel-default">
+  <div class="panel-body add-grp-pnl">
+    <!-- Search input-->
+  <label class="col-md-1 control-label grp-lbl" for="searchinput">Group</label>
+  <div class="col-md-9">
+    <div class="form-group">
+      <input id="searchinput" name="searchinput" type="search" placeholder="Add new group" class="form-control input-md">
+    </div>
+  </div>
+
+  <div class="col-md-2">
+    <div class="form-group">
+      <button class="btn btn-primary full">Add new group</button>
+    </div>
+  </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-4 panel-right">
+    <h3>My Groups</h3>
+
+    <div class="panel panel-default down-pnl">
+      <!-- <div class="panel-heading pnl-head">Groups</div> -->
+
+  <ul class="list-group">
+    <li class="list-group-item">
+      <i class="fa fa-remove lft grp-item-btn btn-remove" aria-hidden="true"></i>
+      <i class="fa fa-edit lft grp-item-btn btn-edit" aria-hidden="true"></i>
+      <i class="fa fa-user-plus lft grp-item-btn btn-add" aria-hidden="true"></i>
+      Cras justo odio
+    </li>
+    <li class="list-group-item">Dapibus ac facilisis in</li>
+    <li class="list-group-item">Morbi leo risus</li>
+    <li class="list-group-item">Porta ac consectetur ac</li>
+    <li class="list-group-item">Vestibulum at eros</li>
+  </ul>
+
+    </div><!-- ./panel -->
+
+  </div><!-- /right col-->
+
+  <div class="col-md-8 panel-left">
+
+      <h3>OS group</h3>
+    <div class="panel panel-default down-pnl">
+      <!-- <div class="panel-heading pnl-head">Panel heading without title</div> -->
+      <div class="panel-body">
+        Another Content
+      </div>
+    </div><!-- ./panel -->
+
+  </div>
+</div><!-- ./row -->
 
 <table>
   <thead>
