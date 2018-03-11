@@ -2,7 +2,6 @@ Rails.application.routes.draw do
 
   resources :friendships
   get 'friends/index'
-
   get 'home/index'
   get 'friends/', to: 'friends#index'
 
@@ -10,7 +9,7 @@ Rails.application.routes.draw do
   resources :user_notifications
   resources :items
   resources :orders
-  devise_for :users
+  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
   resources :groups
   resources :users
   root to: "home#index"
