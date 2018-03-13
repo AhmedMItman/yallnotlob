@@ -10,7 +10,9 @@
       </ul>
     </div>
   <% end %>
-
+<div class="container">
+  <div class="row">
+  <div class="col-md-6">
   <div class="field">
     <%= form.label :resturant %>
     <%= form.text_field :resturant, id: :order_resturant %>
@@ -18,7 +20,7 @@
 
   <div class="field">
     <%= form.label :menu %>
-    <%= form.text_field :menu, id: :order_menu %>
+    <%= form.file_field :menu, id: :order_menu %>
   </div>
 
   <div class="field">
@@ -26,17 +28,25 @@
     <%= form.text_field :typ, id: :order_typ %>
   </div>
 
+
   <div class="field">
-    <%= form.label :statu %>
+    <%= form.label :status %>
     <%= form.text_field :statu, id: :order_statu %>
   </div>
 
-  <div class="field">
-    <%= form.label :user_id %>
-    <%= form.text_field :user_id, id: :order_user_id %>
-  </div>
+    <div class="field">
+      <%= form.label :Friends %>
+      <%= form.text_field :user_id, id: :order_user_id %>
+    </div>
 
-  <div class="actions">
+
+    <div class="actions">
     <%= form.submit %>
   </div>
+  </div>
+    <div class="col-md-6">
+
+    </div>
+  </div>
+</div>
 <% end %>

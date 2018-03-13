@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180313080505) do
+ActiveRecord::Schema.define(version: 20180313120140) do
 
   create_table "friendships", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "user_id"
@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(version: 20180313080505) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "comment"
+    t.string "name"
     t.index ["order_id"], name: "index_items_on_order_id"
     t.index ["user_id"], name: "index_items_on_user_id"
   end
@@ -69,6 +70,14 @@ ActiveRecord::Schema.define(version: 20180313080505) do
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "image_content_type"
+    t.string "image_file_name"
+    t.integer "image_file_size"
+    t.datetime "image_updated_at"
+    t.string "menu_content_type"
+    t.string "menu_file_name"
+    t.integer "menu_file_size"
+    t.datetime "menu_updated_at"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 

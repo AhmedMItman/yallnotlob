@@ -1,5 +1,5 @@
 class ItemsController < ApplicationController
-  before_action :set_item, only: [:show, :edit, :update, :destroy]
+  #before_action :set_item, only: [:show, :edit, :update, :destroy]
 
   # GET /items
   # GET /items.json
@@ -10,11 +10,22 @@ class ItemsController < ApplicationController
   # GET /items/1
   # GET /items/1.json
   def show
+    @item = Item.new
   end
 
   # GET /items/new
   def new
-    @item = Item.new
+    @item = Item.new(user_id:params[:item_user_id],order_id:params[:order_user_id],name:params[:item_name],quantity:params[:item_quantity],price:params[:item_price],comment:params[:item_comment])
+
+    respond_to do |format|
+      if @item.save
+        format.html { redirect_to @item, notice: 'Item was successfully created.' }
+        format.json { render :show, status: :created, location: @item }
+      else
+        format.html { render :new }
+        format.json { render json: @item.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   # GET /items/1/edit
@@ -54,11 +65,8 @@ class ItemsController < ApplicationController
   # DELETE /items/1
   # DELETE /items/1.json
   def destroy
-    @item.destroy
-    respond_to do |format|
-      format.html { redirect_to items_url, notice: 'Item was successfully destroyed.' }
+    Item.destroy(params[:id])
       format.json { head :no_content }
-    end
   end
 
   private
