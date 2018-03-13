@@ -9,12 +9,6 @@ class User < ApplicationRecord
   has_many :notifications
   has_attached_file :image, styles: { large: "600x600>", medium: "300x300>", thumb: "100x100#" }
   validates_attachment_content_type :image, content_type: /\Aimage\/.*\z/
-  #
-  #http://danielchangnyc.github.io/blog/2013/11/06/self-referential-associations/
-  #
-  # has_many :friends, class_name: "User",foreign_key: "friend_id"
-  # belongs_to :friend, class_name: "User"
-
   has_and_belongs_to_many :friendships,class_name: "User",join_table:  :friendships,
                           foreign_key: :user_id,
                           association_foreign_key: :friend_user_id
