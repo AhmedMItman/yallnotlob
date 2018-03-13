@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :orders
   resources :friendships
   get 'friends/index'
   get 'home/index'
@@ -8,7 +9,6 @@ Rails.application.routes.draw do
   resources :notifications
   resources :user_notifications
   resources :items
-  resources :orders
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
   resources :groups
   resources :users

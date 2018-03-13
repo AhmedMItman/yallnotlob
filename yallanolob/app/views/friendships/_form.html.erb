@@ -1,30 +1,17 @@
-<%= form_with(model: friendship, local: true) do |form| %>
-  <% if friendship.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(friendship.errors.count, "error") %> prohibited this friendship from being saved:</h2>
 
-      <ul>
-      <% friendship.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+
+<!--<input type="text" placeholder="Add Friend" id="FreindEmail"/>-->
+<!--<%= link_to "New Task", friendships_path, id: "new_link" %>-->
+<!--<div class="actions">-->
+<!--<button id="addFriend">Add Friend</button>-->
+<!--</div>-->
+
+<%= form_with(model: @friendship) do |form| %>
 
   <div class="field">
-    <%= form.label :user_id %>
-    <%= form.number_field :user_id, id: :friendship_user_id %>
+    <%= form.label :email %>
+    <%= form.email_field :email, id: :friendship_email%>
   </div>
-
-  <div class="field">
-    <%= form.label :friend_id %>
-    <%= form.number_field :friend_id, id: :friendship_friend_id %>
-  </div>
-
-  <!--<div class="field">-->
-    <!--<%= form.label :friend_email %>-->
-    <!--<%= form.email_field :friend_email, email: :friendship_friend_email %>-->
-  <!--</div>-->
 
   <div class="actions">
     <%= form.submit %>

@@ -4,7 +4,14 @@ class FriendshipsController < ApplicationController
   # GET /friendships
   # GET /friendships.json
   def index
-    @friendships = Friendship.all
+    if current_user
+        @friendships = Friendship.where(user_id: current_user.id)
+    else
+      @friendship=nil
+      respond_to do |format|
+        format.html { redirect_to new_user_registration_url, notice: 'You are Not loggedin.' }
+      end
+    end
   end
 
   # GET /friendships/1
@@ -24,17 +31,39 @@ class FriendshipsController < ApplicationController
   # POST /friendships
   # POST /friendships.json
   def create
-    @friendship = Friendship.new(friendship_params)
+    puts("nnnn"+params[:email])
+    @searchFriend=User.find_by_email(params[:email])
 
-    respond_to do |format|
-      if @friendship.save
-        format.html { redirect_to @friendship, notice: 'Friendship was successfully created.' }
+
+    if @searchFriend == nil
+      @friendship=nil
+      respond_to do |format|
+        format.html { redirect_to friendships_url, notice: 'Friend Not Found.' }
         format.json { render :show, status: :created, location: @friendship }
+      end
+    else
+
+      @isFriendBefore=Friendship.find_by_friend_id(@searchFriend.id)
+      if @isFriendBefore !=nil
+        respond_to do |format|
+          format.html { redirect_to friendships_url, notice: 'S/He is already Your Friend.' }
+          format.json { render :show, status: :created, location: @friendship }
+        end
       else
-        format.html { render :new }
-        format.json { render json: @friendship.errors, status: :unprocessable_entity }
+        @friendship = Friendship.new(user_id:current_user.id,friend_id:@searchFriend.id)
+        respond_to do |format|
+          if @friendship.save
+            format.html { redirect_to friendships_url, notice: 'Friendship was successfully created.' }
+            format.json { render :show, status: :created, location: @friendship }
+          else
+            format.html { render :new }
+            format.json { render json: @friendship.errors, status: :unprocessable_entity }
+          end
+        end
       end
     end
+
+
   end
 
   # PATCH/PUT /friendships/1
@@ -62,13 +91,13 @@ class FriendshipsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_friendship
-      @friendship = Friendship.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_friendship
+    @friendship = Friendship.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def friendship_params
-      params.require(:friendship).permit(:user_id, :friend_id)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def friendship_params
+    params.require(:friendship).permit(:user_id, :friend_id)
+  end
 end
