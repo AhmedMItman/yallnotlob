@@ -4,8 +4,8 @@
   <div class="col-md-4 panel-right">
     <div class="panel panel-default">
       <div class="panel-body">
-        <img src="images/marei.jpg" class="img-thumbnail img-circle profile-avatar">
-        <h4 class="text-center profile-name">Marei Morsy</h4>
+        <%= image_tag current_user.image.url(:medium) %>
+      <h4 class="text-center profile-name"><%= current_user.name %></h4>
       </div>
       <div class="acc-settings center">
         <i class="fa fa-gear"></i> Account Settings
