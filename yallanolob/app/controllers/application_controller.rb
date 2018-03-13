@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:sign_up, keys: [:name])
   end
 end
+
 def current_user
   @current_user ||= User.find_by_auth_token!(cookies[:auth_token]) if cookies[:auth_token]
 end
