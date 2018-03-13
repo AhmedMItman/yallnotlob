@@ -7,6 +7,8 @@ class User < ApplicationRecord
   has_many :orders
   has_many :items
   has_many :notifications
+  has_attached_file :image, styles: { large: "600x600>", medium: "300x300>", thumb: "100x100#" }
+  validates_attachment_content_type :image, content_type: /\Aimage\/.*\z/
   #
   #http://danielchangnyc.github.io/blog/2013/11/06/self-referential-associations/
   #

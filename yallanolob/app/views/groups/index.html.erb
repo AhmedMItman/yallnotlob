@@ -2,7 +2,103 @@
 
 <p id="notice"><%= notice %></p>
 
-<h1>Groups</h1>
+<div id="add-grp-pnl" class="panel panel-default">
+  <div class="panel-body add-grp-pnl">
+    <!-- Search input-->
+  <label class="col-md-1 control-label grp-lbl" for="searchinput">Group</label>
+  <div class="col-md-9">
+    <div class="form-group">
+      <input id="searchinput" name="searchinput" type="search" placeholder="Add new group" class="form-control input-md add-grp-txt">
+    </div>
+  </div>
+
+  <div class="col-md-2">
+    <div class="form-group">
+      <button class="btn btn-primary full new-grp-btn">Add new group</button>
+    </div>
+  </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-4 panel-right">
+    <h3>My Groups</h3>
+
+    <div class="panel panel-default down-pnl">
+      <!-- <div class="panel-heading pnl-head">Groups</div> -->
+
+  <ul id="grps-list" class="list-group">
+
+    <li class="list-group-item list-grp">
+      <div class="grp-controls">
+        <i class="fa fa-remove lft grp-item-btn btn-remove rmv-id" grpid="999" aria-hidden="true"></i>
+        <i class="fa fa-edit lft grp-item-btn btn-edit" aria-hidden="true"></i>
+        <i class="fa fa-user-plus lft grp-item-btn btn-add add-id" grpid="999" aria-hidden="true"></i>
+        <span class="grp-name">Group Name</span>
+      </div>
+
+      <div class="grp-input">
+        <form>
+          <input type="text" name="name" class="form-control grp-val" grpid="1" value="Group Name">
+          <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+          <input type="hidden" name="_method" value="patch">
+          <input type="hidden" name="user_id" value="1">
+        </form>
+        <div>
+          <i class="fa fa-times-circle lft grp-item-btn btn-close input-save-btn" aria-hidden="true" grpid="1"></i>
+          <i class="fa fa-save lft grp-item-btn input-save-btn save-btn" aria-hidden="true" grpid=""></i>
+
+        </div>
+
+      </div>
+
+    </li>
+
+    <% @groups.each do |group| %>
+    <li class="list-group-item">
+      <div class="grp-controls">
+        <i class="fa fa-remove lft grp-item-btn btn-remove" grpid="<%= group.id %>" aria-hidden="true"></i>
+
+        <i class="fa fa-edit lft grp-item-btn btn-edit" aria-hidden="true"></i>
+        <i class="fa fa-user-plus lft grp-item-btn btn-add" grpid="1" aria-hidden="true"></i>
+        <span><%= group.name %></span>
+      </div>
+
+      <div class="grp-input">
+        <form>
+          <input type="text" name="name" class="form-control" grpid="1" value="<%= group.name %>">
+          <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+          <input type="hidden" name="_method" value="patch">
+          <input type="hidden" name="user_id" value="1">
+        </form>
+        <div>
+          <i class="fa fa-times-circle lft grp-item-btn btn-close input-save-btn" aria-hidden="true" grpid="1"></i>
+          <i class="fa fa-save lft grp-item-btn input-save-btn save-btn" aria-hidden="true" grpid="<%= group.id %>"></i>
+
+        </div>
+
+      </div>
+
+    </li>
+    <% end %>
+  </ul>
+
+    </div><!-- ./panel -->
+
+  </div><!-- /right col-->
+
+  <div class="col-md-8 panel-left">
+
+      <h3>OS group</h3>
+    <div class="panel panel-default down-pnl">
+      <!-- <div class="panel-heading pnl-head">Panel heading without title</div> -->
+      <div class="panel-body">
+        Another Content
+      </div>
+    </div><!-- ./panel -->
+
+  </div>
+</div><!-- ./row -->
 
 <table>
   <thead>
