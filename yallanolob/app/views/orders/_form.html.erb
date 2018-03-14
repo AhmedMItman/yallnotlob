@@ -1,4 +1,4 @@
-<%= form_with(model: order, local: true) do |form| %>
+<%= form_with(model: order) do |form| %>
   <% if order.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(order.errors.count, "error") %> prohibited this order from being saved:</h2>
@@ -24,15 +24,15 @@
     <%= form.file_field :menu, id: :order_menu %>
   </div>
 
-  <div class="field">
-    <%= form.label :typ %>
-    <%= form.text_field :typ, id: :order_typ %>
-  </div>
+   <select id="order_typ">
+     <option value="Lunch">Lunch</option>
+     <option value="Breakfast">Breakfast</option>
+   </select>
 
 
   <div class="field">
     <%= form.label :status %>
-    <%= form.text_field :statu, id: :order_statu %>
+    <%= form.text_field :statu, id: :order_statu, value: "Waiting...", disabled: true %>
   </div>
 
     <div class="field">
@@ -40,18 +40,35 @@
       <%form.number_field :user_id, id: :order_user_id %>
     </div>
 
+    <div id="myFriendSelect">
+      <ul>
+        <% @friendships.each do |friendship| %>
+          <li friendEmail=<%= friendship.friend.email %> friendname=<%= friendship.friend.name %> friendimg=<%= friendship.friend.image %> >
+            <%= friendship.friend.name %>
+            <%= check_box_tag 'order_allFriends' ,  friendship.friend.id  , false, :class=>"myFriendSelect"  -%>
+
+          </li>
+        <% end %>
+
+      </ul>
+    </div>
+
     <div class="field">
-      <%= form.label :friendEmail %>
-      <%= form.text_field :friendEmail, id: :friendEmail, :id => 'chooseFriend' %>
+      <%= form.label :friendName %>
+      <%= form.text_field :friendName, id: :friendName, :id => 'chooseFriend' %>
     </div>
 
     <div class="actions">
     <%= form.submit :id => 'AddNewOrder' %>
   </div>
   </div>
-    <div class="col-md-6">
+    <div id="showFriends" class="col-md-6">
+      <ul>
 
+      </ul>
     </div>
   </div>
 </div>
 <% end %>
+
+

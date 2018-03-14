@@ -39,7 +39,6 @@ class UsersController < ApplicationController
     end
   end
 
- 
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
@@ -53,6 +52,7 @@ class UsersController < ApplicationController
       end
     end
   end
+
 
   # DELETE /users/1
   # DELETE /users/1.json

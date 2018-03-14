@@ -6,7 +6,6 @@
   <thead>
     <tr>
       <th>Resturant</th>
-      <th>Menu</th>
       <th>Type</th>
       <th>Status</th>
       <th>By</th>
@@ -17,8 +16,8 @@
   <tbody>
     <% @orders.each do |order| %>
       <tr>
+        <input id="whichOrder" type="hidden" value=<%= order.id %> >
         <td><%= order.resturant %></td>
-        <td><%= order.menu %></td>
         <td><%= order.typ %></td>
         <td><%= order.statu %></td>
         <td><%= order.user.name %></td>
@@ -26,7 +25,7 @@
         <% if current_user.name == order.user.name%>
 
         <td><%= link_to 'Edit', edit_order_path(order) %></td>
-        <td><%= link_to 'Destroy', order, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Remove', order, method: :delete, :class=>"DeleteOrder",data: { confirm: 'Are you sure?' } %></td>
         <% end %>
       </tr>
     <% end %>

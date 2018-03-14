@@ -274,3 +274,15 @@ footer{
   text-align: center;
 }
 
+ul {
+    list-style-type: none;
+
+}
+
+.friendImage
+{
+    width: 100px;
+    height: 100px;
+    padding-top: 10px;
+    padding-right: 5px;
+}
