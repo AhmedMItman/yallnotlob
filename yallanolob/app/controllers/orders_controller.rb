@@ -14,7 +14,17 @@ class OrdersController < ApplicationController
   # GET /orders/new
   def new
 
+
     @order = Order.new
+
+    if current_user
+      @friendships = Friendship.where(user_id: current_user.id)
+    else
+      @friendships=nil
+      respond_to do |format|
+        format.html { redirect_to new_user_registration_url, notice: 'You are Not loggedin.' }
+      end
+    end
 
 
   end
@@ -26,26 +36,45 @@ class OrdersController < ApplicationController
   # POST /orders
   # POST /orders.json
   def create
-    @isUser=User.find_by_name(params[:friendEmail])
-    if @isUser != nil
-      @isFriendBefore=Friendship.find_by_friend_id(@isUser.id)
-      if @isFriendBefore != nil
-        @order = Order.new(resturant:params[:order_resturant],menu:params[:order_menu],typ:params[:order_typ],statu:params[:order_statu],user_id:@isUser.id)
-        respond_to do |format|
-          if @order.save
-            format.html { redirect_to @order, notice: 'Order was successfully created.' }
-            format.json { render :show, status: :created, location: @order }
-          else
-            format.html { render :new }
-            format.json { render json: @order.errors, status: :unprocessable_entity }
-          end
-        end
-      else
 
-       end
-    else
+    print("linaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+    # print(params[:order_allFriends])
+    @order = Order.new(resturant:params[:order_resturant],menu:params[:order_menu],typ:params[:order_typ],statu:params[:order_statu],user_id:current_user.id)
+    @order.save
+    @isUser=User.find_by_name(params[:friendName])
+    if @isUser !=nil
+
+      @isFriendBefore=Friendship.where(user_id:current_user.id,friend_id:@isUser.id).exists?(conditions = :none)
+
+      if @isFriendBefore == true
+        @orderWithFriends = FriendOrder.new(order_id:@order.id,friend_id:@isUser.id)
+      end
 
     end
+
+    params[:order_allFriends].each do  |f|
+        print(f)
+        @isUser=User.find_by_id(f)
+        if @isUser != nil
+          @isFriendBefore=Friendship.where(user_id:current_user.id,friend_id:f).exists?(conditions = :none)
+          if @isFriendBefore == true
+            print(@order.id)
+              @orderWithFriends = FriendOrder.new(order_id:@order.id,friend_id:f)
+
+            respond_to do |format|
+              if @orderWithFriends.save
+              format.html { redirect_to @order, notice: 'Order was successfully created.' }
+                format.json { render :show, status: :created, location: @order }
+              else
+                format.html { render :new }
+                format.json { render json: @order.errors, status: :unprocessable_entity }
+              end
+            end
+
+          end
+        end
+    end
+
   end
 
   # PATCH/PUT /orders/1
@@ -65,6 +94,7 @@ class OrdersController < ApplicationController
   # DELETE /orders/1
   # DELETE /orders/1.json
   def destroy
+    FriendOrder.where(order_id:@order.id).destroy_all
     @order.destroy
     respond_to do |format|
       format.html { redirect_to orders_url, notice: 'Order was successfully destroyed.' }

@@ -95,14 +95,25 @@ $(".deleteItem").on('click',function (e) {
 });
 $("#AddNewOrder").on('click',function (e) {
 
+<<<<<<< HEAD
+    var friendsOrder = $('input:checkbox:checked')
+    var allFriendsOrder = []
+    for (var i = 0 ;  i < friendsOrder.length ; i++)
+    {
+        allFriendsOrder[i]=friendsOrder[i].value
+    }
+
+=======
+>>>>>>> 6e55a6ddf52aed23464e3cc14830787b51361bd2
     token = $('meta[name="csrf-token"]').attr('content');
+
     e.preventDefault()
     $.ajax({
 
         url:'/orders',
         type:'post',
-        data:{authenticity_token:token,order_resturant:$("#order_resturant").val(),order_menu:$("#order_menu").val(),order_typ:$("#order_typ").val(),order_statu:$("#order_statu").val(),order_user_id:$("#order_user_id").val(),friendEmail:$("#friendEmail").val()},
-        success : function () {
+        data:{authenticity_token:token,order_allFriends:allFriendsOrder,order_resturant:$("#order_resturant").val(),order_menu:$("#order_menu").val(),order_typ:$("#order_typ").val(),order_statu:$("#order_statu").val(),order_user_id:$("#order_user_id").val(),friendEmail:$("#friendEmail").val()},
+        success : function (res) {
          console.log("yeahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh")
         }
 
@@ -115,4 +126,45 @@ $("#chooseFriend").on('keyup',function (e) {
     {
         alert('catch You')
     }
+})
+$(".myFriendSelect").on('click',function (e) {
+
+    if (!$(this).prop('checked'))
+    {
+         var el = $(this).parent().attr("friendEmail")
+        var ele = document.getElementById(el)
+        ele.remove()
+    }
+    else
+    {
+        var eleLi = document.createElement("li")
+        eleLi.setAttribute("id",$(this).parent().attr("friendEmail"))
+        var eleImg = document.createElement("img")
+        var eleText = document.createTextNode($(this).parent().attr("friendname"))
+        eleImg.src=$(this).parent().attr("friendimg")
+        eleImg.style.width="80px"
+        eleImg.style.height="80px"
+        eleLi.appendChild(eleText)
+        eleLi.appendChild(eleImg)
+        $("#showFriends ul").append(eleLi)
+    }
+
+})
+
+$(".DeleteOrder").on('click',function (e) {
+    e.preventDefault()
+        //console.log($("#whichOrder")[0].value)
+    token = $('meta[name="csrf-token"]').attr('content');
+    id=$("#whichOrder")[0].value
+    $(this).parent().parent().remove()
+    $.ajax({
+        url: '/orders/'+id,
+        type:'delete',
+        data : {authenticity_token:token},
+        success :function (r) {
+        console.log('yeeeeeeah')
+
+        }
+
+    })
 })

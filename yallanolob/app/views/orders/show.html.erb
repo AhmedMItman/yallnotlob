@@ -1,10 +1,10 @@
+<center><img style="width: 200px; height: 200px;" src=<%= @order.menu %> /></center>
 <p id="notice"><%= notice %></p>
 
 <table class="table">
   <thead>
   <tr>
     <th>Resturant</th>
-    <th>Menu</th>
     <th>Type</th>
     <th>Status</th>
     <th>By</th>
@@ -15,7 +15,6 @@
   <tbody>
     <tr>
       <td><%= @order.resturant %></td>
-      <td><%= @order.menu %></td>
       <td><%= @order.typ %></td>
       <td><%= @order.statu %></td>
       <td><%= @order.user.name %></td>
@@ -24,8 +23,6 @@
 </table>
 
 
-<%= link_to 'Edit', edit_order_path(@order) %> |
-<%= link_to 'Back', orders_path %>
 
 <h1>Items</h1>
 
@@ -45,7 +42,7 @@
   <% @order.items.each do |item| %>
     <tr itemid=<%= item.id %>>
       <td><%= item.user.name %></td>
-      <td><%= item.name %></td>
+
       <td><%= item.quantity %></td>
       <td><%= item.price %></td>
       <td><%= item.comment %></td>
@@ -70,3 +67,7 @@
     <button type="submit">Add Item</button>
   </form>
 </div>
+
+<%= link_to 'Edit', edit_order_path(@order) %> |
+<%= link_to 'Back', orders_path %>
+

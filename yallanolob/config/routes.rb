@@ -5,7 +5,6 @@ Rails.application.routes.draw do
   get 'friends/index'
   get 'home/index'
   get 'friends/', to: 'friends#index'
-
   resources :notifications
   resources :user_notifications
   resources :items

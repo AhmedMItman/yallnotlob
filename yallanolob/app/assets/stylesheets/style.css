@@ -274,6 +274,18 @@ footer{
   text-align: center;
 }
 
+ul {
+    list-style-type: none;
+
+}
+
+.friendImage {
+    width: 100px;
+    height: 100px;
+    padding-top: 10px;
+    padding-right: 5px;
+}
+
 .yourImage
 {
     display:inline-block;
@@ -303,4 +315,5 @@ footer{
     -moz-transform: scale(1.5);
     transition: all 200ms ease-in;
     transform: scale(1.5);
+>>>>>>> 6e55a6ddf52aed23464e3cc14830787b51361bd2
 }
