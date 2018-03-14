@@ -1,0 +1,19 @@
+
+
+<!--<input type="text" placeholder="Add Friend" id="FreindEmail"/>-->
+<!--<%= link_to "New Task", friendships_path, id: "new_link" %>-->
+<!--<div class="actions">-->
+<!--<button id="addFriend">Add Friend</button>-->
+<!--</div>-->
+
+<%= form_with(model: @friendship) do |form| %>
+
+  <div class="field">
+    <%= form.label :email %>
+    <%= form.email_field :email, id: :friendship_email%>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

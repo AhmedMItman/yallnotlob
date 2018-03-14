@@ -1,12 +1,15 @@
+
 <p id="notice"><%= notice %></p>
-<div id="change" onClick="Change()">
-  <%= image_tag @user.image.url(:medium) %>
-</div>
+<%= image_tag @user.image.url(:medium) %>
 
-<p>
-  <strong>Name:</strong>
-  <%= @user.name %>
-</p>
 
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>
+<h2>Friends</h2>
+<ul>
+  <% for friendship in @user.friendships %>
+    <li>
+      <%=h friendship.friend.username %>
+      (<%= link_to "remove", friendship, :method => :delete %>)
+    </li>
+  <% end %>
+</ul>
+<p><%= link_to "Find Friends", users_path %></p>

@@ -1,26 +1,26 @@
 <h2>Log in</h2>
-<%= form_tag sessions_path do %>
-<!-- <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %> -->
+
+<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
   <div class="field">
-    <%= label_tag :email %><br />
-    <%= email_field_tag :email %>
+    <%= f.label :email %><br />
+    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
   </div>
 
   <div class="field">
-    <%= label_tag :password %><br />
-    <%= password_field_tag :password %>
+    <%= f.label :password %><br />
+    <%= f.password_field :password, autocomplete: "off" %>
   </div>
-  <p><%= link_to "forgotten password?", new_password_reset_path %></p>
 
-  <!-- <% if devise_mapping.rememberable? -%>  -->
+  <% if devise_mapping.rememberable? -%>
     <div class="field">
-      <%= check_box_tag :remember_me, 1, params[:remember_me] %>
-       <%= label_tag :remember_me %>
+      <%= f.check_box :remember_me %>
+      <%= f.label :remember_me %>
     </div>
-  <% end %>
+  <% end -%>
 
-  <div class="actions"><%= submit_tag "Log in" %> </div>
-    <!-- <%= f.submit "Log in" %> -->
+  <div class="actions">
+    <%= f.submit "Log in" %>
+  </div>
+<% end %>
 
-<% end %>
-<% end %>
+<%= render "devise/shared/links" %>

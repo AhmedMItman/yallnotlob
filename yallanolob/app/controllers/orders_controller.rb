@@ -1,10 +1,9 @@
 class OrdersController < ApplicationController
   before_action :set_order, only: [:show, :edit, :update, :destroy]
-
   # GET /orders
   # GET /orders.json
   def index
-    @orders = Order.all
+    @orders = Order.all.paginate(:page => params[:page], :per_page => 1)
   end
 
   # GET /orders/1
@@ -24,8 +23,8 @@ class OrdersController < ApplicationController
   # POST /orders
   # POST /orders.json
   def create
+    @isUser=User.find_by_name(params[:user_id])
     @order = Order.new(order_params)
-
     respond_to do |format|
       if @order.save
         format.html { redirect_to @order, notice: 'Order was successfully created.' }
@@ -69,6 +68,7 @@ class OrdersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def order_params
-      params.require(:order).permit(:resturant, :menu, :type, :status, :User_id)
+      params.require(:order).permit(:resturant, :menu, :typ, :statu, :user_id)
+
     end
 end

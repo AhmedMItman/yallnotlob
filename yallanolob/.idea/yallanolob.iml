@@ -42,30 +42,48 @@
     <orderEntry type="library" scope="PROVIDED" name="byebug (v10.0.0, RVM: ruby-2.3.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="capybara (v2.18.0, RVM: ruby-2.3.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="childprocess (v0.8.0, RVM: ruby-2.3.4) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="climate_control (v0.2.0, RVM: ruby-2.3.4) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="cocaine (v0.5.8, RVM: ruby-2.3.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="coffee-rails (v4.2.2, RVM: ruby-2.3.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="coffee-script (v2.4.1, RVM: ruby-2.3.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="coffee-script-source (v1.12.2, RVM: ruby-2.3.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="concurrent-ruby (v1.0.5, RVM: ruby-2.3.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="crass (v1.0.3, RVM: ruby-2.3.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="devise (v4.4.1, RVM: ruby-2.3.4) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="erubi (v1.7.1, RVM: ruby-2.3.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="execjs (v2.7.0, RVM: ruby-2.3.4) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="faraday (v0.12.2, RVM: ruby-2.3.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ffi (v1.9.23, RVM: ruby-2.3.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="globalid (v0.4.1, RVM: ruby-2.3.4) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="hashie (v3.5.7, RVM: ruby-2.3.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="i18n (v0.9.5, RVM: ruby-2.3.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="jbuilder (v2.7.0, RVM: ruby-2.3.4) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="jwt (v1.5.6, RVM: ruby-2.3.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="listen (v3.1.5, RVM: ruby-2.3.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="loofah (v2.2.0, RVM: ruby-2.3.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="mail (v2.7.0, RVM: ruby-2.3.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="method_source (v0.9.0, RVM: ruby-2.3.4) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="mime-types (v3.1, RVM: ruby-2.3.4) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="mime-types-data (v3.2016.0521, RVM: ruby-2.3.4) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="mimemagic (v0.3.2, RVM: ruby-2.3.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="mini_mime (v1.0.0, RVM: ruby-2.3.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="mini_portile2 (v2.3.0, RVM: ruby-2.3.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="minitest (v5.11.3, RVM: ruby-2.3.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="multi_json (v1.13.1, RVM: ruby-2.3.4) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="multi_xml (v0.6.0, RVM: ruby-2.3.4) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="multipart-post (v2.0.0, RVM: ruby-2.3.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="mysql2 (v0.4.10, RVM: ruby-2.3.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="nio4r (v2.2.0, RVM: ruby-2.3.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="nokogiri (v1.8.2, RVM: ruby-2.3.4) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="oauth2 (v1.4.0, RVM: ruby-2.3.4) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="omniauth (v1.8.1, RVM: ruby-2.3.4) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="omniauth-facebook (v4.0.0, RVM: ruby-2.3.4) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="omniauth-google-oauth2 (v0.2.8, RVM: ruby-2.3.4) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="omniauth-oauth2 (v1.5.0, RVM: ruby-2.3.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="orm_adapter (v0.5.0, RVM: ruby-2.3.4) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="paperclip (v5.2.1, RVM: ruby-2.3.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="public_suffix (v3.0.2, RVM: ruby-2.3.4) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="puma (v3.11.3, RVM: ruby-2.3.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rack (v2.0.4, RVM: ruby-2.3.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rack-test (v0.8.3, RVM: ruby-2.3.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rails (v5.1.5, RVM: ruby-2.3.4) [gem]" level="application" />

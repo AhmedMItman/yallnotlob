@@ -10,13 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180312195321) do
+ActiveRecord::Schema.define(version: 20180313120140) do
 
-  create_table "friendships", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "friendships", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "user_id"
-    t.integer "friend_user_id"
-    t.index ["friend_user_id", "user_id"], name: "index_friendships_on_friend_user_id_and_user_id", unique: true
-    t.index ["user_id", "friend_user_id"], name: "index_friendships_on_user_id_and_friend_user_id", unique: true
+    t.integer "friend_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "groups", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -40,6 +40,8 @@ ActiveRecord::Schema.define(version: 20180312195321) do
     t.float "price", limit: 24
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "comment"
+    t.string "name"
     t.index ["order_id"], name: "index_items_on_order_id"
     t.index ["user_id"], name: "index_items_on_user_id"
   end
@@ -61,13 +63,17 @@ ActiveRecord::Schema.define(version: 20180312195321) do
   end
 
   create_table "orders", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.bigint "user_id"
     t.string "resturant"
     t.string "menu"
-    t.string "type"
-    t.string "status"
+    t.string "typ"
+    t.string "statu"
+    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "menu_content_type"
+    t.string "menu_file_name"
+    t.integer "menu_file_size"
+    t.datetime "menu_updated_at"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
@@ -95,18 +101,16 @@ ActiveRecord::Schema.define(version: 20180312195321) do
     t.datetime "last_sign_in_at"
     t.string "current_sign_in_ip"
     t.string "last_sign_in_ip"
-    t.string "provider"
-    t.string "uid"
     t.text "image"
-    t.string "auth_token"
+    t.string "password_reset_token"
+    t.datetime "password_reset_sent_at"
     t.string "image_file_name"
     t.string "image_content_type"
     t.integer "image_file_size"
     t.datetime "image_updated_at"
-    t.string "password_reset_token"
-    t.datetime "password_reset_sent_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "orders", "users"
 end

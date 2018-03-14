@@ -3,13 +3,13 @@
 one:
   resturant: MyString
   menu: MyString
-  type: 
-  status: MyString
-  User: one
+  typ: MyString
+  statu: MyString
+  user: one
 
 two:
   resturant: MyString
   menu: MyString
-  type: 
-  status: MyString
-  User: two
+  typ: MyString
+  statu: MyString
+  user: two

@@ -48,14 +48,11 @@ $('.btn-remove').click(function(){
 })
 
 $('.new-grp-btn').click(function(){
+
 	token = $('meta[name="csrf-token"]').attr('content');
 	name = $('.add-grp-txt').val();
 	id = 1
-
-
-
 	var item = $('.list-grp').first().clone(true, true);
-
 	$('#grps-list').append(item)
 	$('.grp-name').last().text(name)
 	$('.grp-val').last().val(name)
@@ -66,9 +63,33 @@ $('.new-grp-btn').click(function(){
 	// $.post("/groups/", {authenticity_token:token, name:name, user_id:id } , function(data, status){
 	// 	console.log(data)
 	// });
+
+
 })
-function Change()
-{
-document.getElementById("change").height="200";
-document.getElementById("change").width="200";
-}
+
+$('#addItemForm').on('submit',function (e) {
+    e.preventDefault()
+    $.ajax({
+        url: '/items/new',
+        type:'get',
+        data : { item_user_id:$("#item_user_id").val(),order_user_id:$("#order_user_id").val(),item_name:$("#item_name").val()
+        ,item_quantity:$("#item_quantity").val(),item_price:$("#item_price").val(),item_comment:$("#item_comment").val()},
+        success :function (r) {
+            $("#ItemsTable tbody").append("<tr><td>"+$("#item_name").val()+"</td><td>"+$("#item_quantity").val()+"</td><td>"+$("#item_price").val()+"</td><td>"+$("#item_comment").val()+"</td></tr>")
+        }
+    })
+})
+
+$(".deleteItem").on('click',function (e) {
+    //console.log($('meta[name="csrf-token"]').attr("content"))
+    $(this).parent().remove();
+    itemId =($(this).parent().attr('itemid'))
+    token = $('meta[name="csrf-token"]').attr('content');
+    $.ajax({
+        url: '/items/'+itemId,
+        type:'delete',
+        data : {authenticity_token:token},
+        success :function (r) {
+        }
+    })
+})
