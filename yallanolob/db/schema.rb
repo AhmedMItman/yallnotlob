@@ -70,6 +70,10 @@ ActiveRecord::Schema.define(version: 20180313120140) do
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "image_content_type"
+    t.string "image_file_name"
+    t.integer "image_file_size"
+    t.datetime "image_updated_at"
     t.string "menu_content_type"
     t.string "menu_file_name"
     t.integer "menu_file_size"

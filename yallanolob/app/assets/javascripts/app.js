@@ -92,4 +92,27 @@ $(".deleteItem").on('click',function (e) {
         success :function (r) {
         }
     })
+});
+$("#AddNewOrder").on('click',function (e) {
+
+    token = $('meta[name="csrf-token"]').attr('content');
+    e.preventDefault()
+    $.ajax({
+
+        url:'/orders',
+        type:'post',
+        data:{authenticity_token:token,order_resturant:$("#order_resturant").val(),order_menu:$("#order_menu").val(),order_typ:$("#order_typ").val(),order_statu:$("#order_statu").val(),order_user_id:$("#order_user_id").val(),friendEmail:$("#friendEmail").val()},
+        success : function () {
+         console.log("yeahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh")
+        }
+
+    });
+
+});
+
+$("#chooseFriend").on('keyup',function (e) {
+    if(e.key==',')
+    {
+        alert('catch You')
+    }
 })

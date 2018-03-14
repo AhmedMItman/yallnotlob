@@ -11,6 +11,10 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
+<<<<<<< HEAD
+=======
+   # @user = User.find(params[:id])
+>>>>>>> c45e936b6f2e1361003fbfba6376ca52c79b844c
   end
 
   # GET /users/new
