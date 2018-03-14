@@ -1,8 +1,7 @@
 <p id="notice"><%= notice %></p>
-
 <h1>Orders</h1>
 
-<table class="table">
+<table class="table" id="orders">
   <thead>
     <tr>
       <th>Resturant</th>
@@ -32,6 +31,6 @@
   </tbody>
 </table>
 
+<div class="center"><%= will_paginate @orders, renderer: BootstrapPagination::Rails, previous_label: "Older", next_label: "Newer" %></div>
 <br>
-
 <%= link_to 'New Order', new_order_path %>

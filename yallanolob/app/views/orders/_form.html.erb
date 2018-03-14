@@ -13,7 +13,6 @@
 <div class="container">
   <div class="row">
   <div class="col-md-6">
-
   <div class="field">
     <%= form.label :resturant %>
     <%= form.text_field :resturant, id: :order_resturant %>
@@ -36,8 +35,8 @@
   </div>
 
     <div class="field">
-      <% form.label :Friends %>
-      <%form.number_field :user_id, id: :order_user_id %>
+      <%= form.label :Friends %>
+      <%= form.text_field :user_id, id: :order_user_id %>
     </div>
 
     <div id="myFriendSelect">
@@ -59,7 +58,7 @@
     </div>
 
     <div class="actions">
-    <%= form.submit :id => 'AddNewOrder' %>
+    <%= form.submit %>
   </div>
   </div>
     <div id="showFriends" class="col-md-6">
