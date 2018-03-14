@@ -14,7 +14,10 @@ class OrdersController < ApplicationController
 
   # GET /orders/new
   def new
+
     @order = Order.new
+
+
   end
 
   # GET /orders/1/edit
@@ -24,18 +27,25 @@ class OrdersController < ApplicationController
   # POST /orders
   # POST /orders.json
   def create
-
-    print("nameeeeeeeeeeeeeeeeeeeeeeeeeeeeee:"+params[:typ])
-    @isUser=User.find_by_name(params[:user_id])
-    @order = Order.new(order_params)
-    respond_to do |format|
-      if @order.save
-        format.html { redirect_to @order, notice: 'Order was successfully created.' }
-        format.json { render :show, status: :created, location: @order }
+    @isUser=User.find_by_name(params[:friendEmail])
+    if @isUser != nil
+      @isFriendBefore=Friendship.find_by_friend_id(@isUser.id)
+      if @isFriendBefore != nil
+        @order = Order.new(resturant:params[:order_resturant],menu:params[:order_menu],typ:params[:order_typ],statu:params[:order_statu],user_id:@isUser.id)
+        respond_to do |format|
+          if @order.save
+            format.html { redirect_to @order, notice: 'Order was successfully created.' }
+            format.json { render :show, status: :created, location: @order }
+          else
+            format.html { render :new }
+            format.json { render json: @order.errors, status: :unprocessable_entity }
+          end
+        end
       else
-        format.html { render :new }
-        format.json { render json: @order.errors, status: :unprocessable_entity }
-      end
+
+       end
+    else
+
     end
   end
 
@@ -71,7 +81,7 @@ class OrdersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def order_params
-      params.require(:order).permit(:resturant, :menu, :typ, :statu, :user_id)
+      params.require(:order).permit(:resturant, :menu, :typ, :statu, :user_id,:test)
 
     end
 end
