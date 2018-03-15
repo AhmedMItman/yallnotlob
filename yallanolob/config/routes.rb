@@ -2,6 +2,8 @@ Rails.application.routes.draw do
 
   resources :orders
   resources :friendships
+  resources :home
+
   get 'friends/index'
   get 'home/index'
   get 'friends/', to: 'friends#index'
