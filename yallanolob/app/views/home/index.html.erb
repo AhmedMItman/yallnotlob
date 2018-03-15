@@ -1,50 +1,56 @@
-<% content_for :hm do 'active' end%>
-
-<div class="row">
-  <div class="col-md-4 panel-right">
-    <div class="panel panel-default">
-      <div class="panel-body">
-        <%= image_tag current_user.image.url(:medium) %>
-      <h4 class="text-center profile-name"><%= current_user.name %></h4>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="panel panel-primary">
+          <div class="panel-heading">
+              Latest Orders
+          </div>
+          <div class="panel-body">
+              <div class="row">
+                  <div class="col-lg-12">
+                  <% @orders.each do |order| %>
+              <b>
+              <%= link_to   order_url(order) do %>
+              <%= order.typ %> on <%= order.created_at %> </b>
+              <% end %>
+              <br>
+            <% end %>  
+                  </div>
+              </div>
+          </div>
       </div>
-      <div class="acc-settings center">
-        <i class="fa fa-gear"></i> Account Settings
+    </div>
+
+
+    <div class="col-sm-6">
+      <div class="panel panel-primary">
+          <div class="panel-heading">
+              Friend's activties
+          </div>
+          <div class="panel-body">
+              <div class="row">
+                  <div class="col-lg-12">
+                  <% @all.each do |forder| %>
+                <% forder.each do |order|%>
+                <b>
+                <%= order.user.name %> has created an order for <%= order.typ %> from <%= order.resturant %> 
+                <% end %> </b>
+
+                <br>
+              <% end %>  
+                  </div>
+              </div>
+          </div>
       </div>
-    </div><!-- ./panel -->
-
-    <div class="panel panel-default">
-      <div class="panel-body">
-        Content
-      </div>
-    </div><!-- ./panel -->
-
-    <div class="panel panel-default">
-      <div class="panel-body">
-        Content
-      </div>
-    </div><!-- ./panel -->
-
-  </div><!-- /right col-->
-
-  <div class="col-md-8 panel-left">
-
-    <div class="panel panel-default">
-      <div class="panel-body">
-        Another Content
-      </div>
-    </div><!-- ./panel -->
-
-    <div class="panel panel-default">
-      <div class="panel-body">
-        Another Content
-      </div>
-    </div><!-- ./panel -->
-
-    <div class="panel panel-default">
-      <div class="panel-body">
-        Another content
-      </div>
-    </div><!-- ./panel -->
+    </div>
 
   </div>
-</div><!-- ./row -->
+</div>
+
+
+
+
+
+
+
+
