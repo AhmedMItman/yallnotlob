@@ -93,10 +93,48 @@ body{
 .grp-input{
 	display: none;
 }
+.hidden{
+	display: none;
+}
 .grp-controls{
 
 }
 
+.alert{
+	margin-top: 25px;
+	display: none;
+}
+
+.frnd-pnl{
+	padding-top: 30px;
+
+}
+.frnds-pnl{
+		/*padding: 30px;*/
+}
+.rmv-frnd{
+	float: right;
+}
+
+.rmv-frnd:hover{
+	color: #d9534f;
+	cursor: pointer;
+}
+.frnd-img{
+	border-radius: 50%;
+}
+
+.frnds-row{
+	padding: 0 30px;
+}
+
+#grpname, #grp-pnl{
+	display: none;
+}
+
+.user-thumb{
+	display: none;
+}
 
 button.list-group-item:hover{
 	background: #f8f8f8;
