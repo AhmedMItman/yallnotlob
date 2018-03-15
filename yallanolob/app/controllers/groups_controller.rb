@@ -16,7 +16,7 @@ class GroupsController < ApplicationController
   # GET /groups
   # GET /groups.json
   def groupfriends
-    @group = Group.find(20)
+    @group = Group.find params['id']
     # @groups = Group.user
     # format.json { render :show, status: :created, location: @groups }
     # format.json { name =>'marei' }
