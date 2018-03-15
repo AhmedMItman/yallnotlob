@@ -93,10 +93,48 @@ body{
 .grp-input{
 	display: none;
 }
+.hidden{
+	display: none;
+}
 .grp-controls{
-	
+
 }
 
+.alert{
+	margin-top: 25px;
+	display: none;
+}
+
+.frnd-pnl{
+	padding-top: 30px;
+
+}
+.frnds-pnl{
+		/*padding: 30px;*/
+}
+.rmv-frnd{
+	float: right;
+}
+
+.rmv-frnd:hover{
+	color: #d9534f;
+	cursor: pointer;
+}
+.frnd-img{
+	border-radius: 50%;
+}
+
+.frnds-row{
+	padding: 0 30px;
+}
+
+#grpname, #grp-pnl{
+	display: none;
+}
+
+.user-thumb{
+	display: none;
+}
 
 button.list-group-item:hover{
 	background: #f8f8f8;
@@ -274,3 +312,51 @@ footer{
   text-align: center;
 }
 
+ul {
+    list-style-type: none;
+
+}
+
+.friendImage {
+    width: 100px;
+    height: 100px;
+    padding-top: 10px;
+    padding-right: 5px;
+}
+
+.yourImage
+{
+    display:inline-block;
+    border:0;
+    width:196px;
+    height:210px;
+    position: relative;
+    -webkit-transition: all 200ms ease-in;
+    -webkit-transform: scale(1);
+    -ms-transition: all 200ms ease-in;
+    -ms-transform: scale(1);
+    -moz-transition: all 200ms ease-in;
+    -moz-transform: scale(1);
+    transition: all 200ms ease-in;
+    transform: scale(1);
+
+}
+.yourImage:hover
+{
+    box-shadow: 0px 0px 150px #000000;
+    z-index: 2;
+    -webkit-transition: all 200ms ease-in;
+    -webkit-transform: scale(3);
+    -ms-transition: all 200ms ease-in;
+    -ms-transform: scale(3);
+    -moz-transition: all 200ms ease-in;
+    -moz-transform: scale(3);
+    transition: all 200ms ease-in;
+    transform: scale(3);
+		top: 200px;
+}
+
+.imageOrder
+{
+	left:400px
+}

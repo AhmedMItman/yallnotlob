@@ -1,3 +1,15 @@
+function error(msg){
+	$('.success').hide();
+	$('.error').show();
+	$('.error').text(msg);
+}
+
+function success(msg){
+	$('.error').hide();
+	$('.success').show();
+	$('.success').text(msg);
+}
+
 $('.btn-edit').on('click',function(){
 	$('.grp-input').hide();
 	$('.grp-controls').show();
@@ -33,6 +45,7 @@ $('.save-btn').click(function(){
 	$.post("/groups/"+id, data , function(data, status){
 	    $('.grp-input').hide();
 	    $('.grp-controls').show();
+	    success('the group has updated successfully!')
 	});
 
 })
@@ -45,27 +58,121 @@ $('.btn-remove').click(function(){
 	// }
 	$.post("/groups/"+id, {authenticity_token:token, _method:'delete'});
 	$(this).parent().parent().remove();
+	success('The group has deleted successfully!')
+})
+
+$('.rmv-frnd').click(function(){
+	user_id = $(this).attr('usrid');
+	group_id = $('#grpname').attr('grpid');
+	token = $('meta[name="csrf-token"]').attr('content');
+	self = $(this)
+
+	// if ($("#grps-list").children().length == 0) {
+	// 	$("#grps-list").html('dfdf')
+	// }
+	$.post("/remove_friend_from_group", {authenticity_token:token, user_id:user_id, group_id:group_id}, function(data, status){
+		self.parent().parent().remove()
+		success("The user has removed successfully from the group!")
+	});
+	// $(this).parent().parent().remove();
+	// success('The group has deleted successfully!')
+})
+
+$('#add-frnd').click(function(){
+	token = $('meta[name="csrf-token"]').attr('content');
+	group_id = $('#grpname').attr('grpid');
+	current_user_id = $('#usr-id').text();
+	email = $('#frnd-email').val();
+
+	if ($('#frnd-email').val().trim().length == 0) {
+		error('The e-mail field can not be empty!')
+		return false;
+	}
+
+	$.post("/add_friend_to_group", {authenticity_token:token, group_id:group_id, email:email, user_id:current_user_id}, function(data, status){
+		console.log(data)
+		if (data.error == null) {
+			$('.btn-add[grpid="' + group_id + '"]').trigger('click')
+			success('Your friend has added successfully to your group !')
+		}else{
+			error(data.error)
+		}
+		// if (typeof(data.error) !== 'undefined') {
+
+		// console.log(data.error)
+		// }else{
+		// 	console.log('no error')
+		// }
+		// self.parent().parent().remove()
+		// success("The user has removed successfully from the group!")
+		
+	});
+});
+
+
+$('.btn-add').click(function(){
+	id = $(this).attr('grpid');
+	token = $('meta[name="csrf-token"]').attr('content');
+	$('#grpname').text($(this).next().text())
+	$('#grpname').show()
+	$('#grp-pnl').show()
+	$('#grpname').attr('grpid', id)
+	$.get("/groupfriends", {id:id}, function(data, status){
+		// console.log(data);
+		$('.frnds-row').html('');
+		for (var user in data)
+		{
+			var item = $('.user-thumb').first().clone(true, true);
+			$('.frnds-row').append(item)
+			$('.rmv-frnd').last().attr('usrid', data[user][0])
+			$('.usr-name').last().text(data[user][1])
+			$('.frnd-img').last().attr('src', data[user][2]);
+			$('.user-thumb').last().show()
+
+
+
+			// console.log(data[user][1])
+			// console.log()
+		    // Do something
+		}
+	});
+
+	// if ($("#grps-list").children().length == 0) {
+	// 	$("#grps-list").html('dfdf')
+	// }
+	// $.post("/groups/"+id, {authenticity_token:token, _method:'delete'});
+	// $(this).parent().parent().remove();
+	// success('The group has deleted successfully!')
 })
 
 $('.new-grp-btn').click(function(){
+	if($('.add-grp-txt').val().trim().length == 0) { // zero-length string AFTER a trim
+		error("You can't add an empty group");
+		$('.add-grp-txt').focus();
+	}else{
+		token = $('meta[name="csrf-token"]').attr('content');
+		name = $('.add-grp-txt').val();
+		id = $('#usr-id').text();
 
-	token = $('meta[name="csrf-token"]').attr('content');
-	name = $('.add-grp-txt').val();
-	id = 1
-	var item = $('.list-grp').first().clone(true, true);
-	$('#grps-list').append(item)
-	$('.grp-name').last().text(name)
-	$('.grp-val').last().val(name)
-	$('.add-grp-txt').val('').focus();
+		var item = $('.list-grp').first().clone(true, true);
 
-	console.log($('.grp-name'))
+		console.log($('.grp-name'))
 
-	// $.post("/groups/", {authenticity_token:token, name:name, user_id:id } , function(data, status){
-	// 	console.log(data)
-	// });
-
-
-})
+		$.post("/groups/", {authenticity_token:token, name:name, user_id:id } , function(data, status){
+			grpid = data.id
+			$('#grps-list').append(item)
+			$('.grp-name').last().text(name)
+			$('.grp-val').last().val(name)
+			$('.rmv-id').last().attr("grpid",grpid);
+			$('.add-id').last().attr("grpid",grpid);
+			$('.save-id').last().attr("grpid",grpid);
+			$('.list-grp').last().removeClass('hidden')
+			$('.add-grp-txt').val('').focus();
+			success("The group " + name + " has created successfully!")
+			console.log(data)
+		});
+	}
+});
 
 $('#addItemForm').on('submit',function (e) {
     e.preventDefault()
@@ -90,21 +197,28 @@ $(".deleteItem").on('click',function (e) {
         type:'delete',
         data : {authenticity_token:token},
         success :function (r) {
-
-
         }
     })
 });
-
 $("#AddNewOrder").on('click',function (e) {
+    e.preventDefault();
+    //console.log($("#friendName").val())
+    var friendsOrder = $('input:checkbox:checked')
+    var allFriendsOrder = []
+    for (var i = 0 ;  i < friendsOrder.length ; i++)
+    {
+        allFriendsOrder[i]=friendsOrder[i].value
+        console.log(allFriendsOrder[i])
+    }
+
     token = $('meta[name="csrf-token"]').attr('content');
-    e.preventDefault()
+
     $.ajax({
 
         url:'/orders',
         type:'post',
-        data:{authenticity_token:token,order_resturant:$("#order_resturant").val(),order_menu:$("#order_menu").val(),order_typ:$("#order_typ").val(),order_statu:$("#order_statu").val(),order_user_id:$("#order_user_id").val(),friendEmail:$("#friendEmail").val()},
-        success : function () {
+        data:{authenticity_token:token,order_allFriends:allFriendsOrder,order_resturant:$("#order_resturant").val(),order_menu:$("#order_menu").val(),order_typ:$("#order_typ").val(),order_statu:$("#order_statu").val(),order_user_id:$("#order_user_id").val(),order_friendName:$("#order_friendName").val()},
+        success : function (res) {
          console.log("yeahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh")
         }
 
@@ -112,9 +226,44 @@ $("#AddNewOrder").on('click',function (e) {
 
 });
 
-$("#chooseFriend").on('keyup',function (e) {
-    if(e.key==',')
+$(".myFriendSelect").on('click',function (e) {
+
+    if (!$(this).prop('checked'))
     {
-        alert('catch You')
+         var el = $(this).parent().attr("friendEmail")
+        var ele = document.getElementById(el)
+        ele.remove()
     }
+    else
+    {
+        var eleLi = document.createElement("li")
+        eleLi.setAttribute("id",$(this).parent().attr("friendEmail"))
+        var eleImg = document.createElement("img")
+        var eleText = document.createTextNode($(this).parent().attr("friendname"))
+        eleImg.src=$(this).parent().attr("friendimg")
+        eleImg.style.width="80px"
+        eleImg.style.height="80px"
+        eleLi.appendChild(eleText)
+        eleLi.appendChild(eleImg)
+        $("#showFriends ul").append(eleLi)
+    }
+
 })
+
+$(".DeleteOrder").on('click',function (e) {
+    e.preventDefault()
+        //console.log($("#whichOrder")[0].value)
+    token = $('meta[name="csrf-token"]').attr('content');
+    id=$("#whichOrder")[0].value
+    $(this).parent().parent().remove()
+    $.ajax({
+        url: '/orders/'+id,
+        type:'delete',
+        data : {authenticity_token:token},
+        success :function (r) {
+        console.log('yeeeeeeah')
+
+        }
+
+    })
+});
