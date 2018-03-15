@@ -360,3 +360,14 @@ ul {
 {
 	left:400px
 }
+
+.panel-primary
+{
+	height: 400px;
+}
+.panel-heading
+{
+	font-weight: bold;
+	font-size: 22px;
+	font-family: "Times New Roman", Times, serif;
+}
