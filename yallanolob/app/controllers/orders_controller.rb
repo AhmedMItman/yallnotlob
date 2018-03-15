@@ -9,13 +9,17 @@ class OrdersController < ApplicationController
   # GET /orders/1
   # GET /orders/1.json
   def show
-    print("ooooooooooooooooooooooooooooooooooooooooooooooooop")
-    @orderInvitedFriend=FriendOrder.where(order_id:@order.id)
-    @orderInvitedFriend.each do |f|
-      print("sssssssssssssssssssssssssssssssssssssssssssssssssss")
-      print(f.id)
-    end
 
+    @orderInvitedFriend=FriendOrder.where(order_id:@order.id)
+    print("ooooooooooooooooooooooooooooooooooooo")
+    @friendsLength=@orderInvitedFriend.count
+    @allinvitedFriends={}
+    @orderInvitedFriend.each do |friend|
+    print("here")
+    print(friend.friend_id)
+    @user=User.find(friend.friend_id)
+    @allinvitedFriends[friend.friend_id]=[@user.name, @user.image]
+    end
   end
 
   # GET /orders/new

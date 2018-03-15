@@ -26,9 +26,10 @@
 </table>
 </div>
 <div class="col-md-6">
-  <a data-toggle="modal" data-target="#myModal">Invited Friends, Click to view</a>
+  <a data-toggle="modal" data-target="#myModal"><%= @friendsLength %>  Invited Friends, Click to view</a>
 </div>
 </div>
+<!-- Start First Modal -->
 
 <div class="modal" id="myModal" aria-labelledby="myModal" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
@@ -48,6 +49,14 @@
              </tr>
          </thead>
          <tbody>
+           <% @allinvitedFriends.each do |item| %>
+             <tr>
+               <td><%= item[1][0] %></td>
+               <td><img style="width:50px;height:50px" src=<%=item[1][1] %> /></td>
+
+             </tr>
+           <% end %>
+
          </tbody>
 
 </table>
@@ -58,6 +67,7 @@
     </div>
   </div>
 </div>
+<!-- End First Modal -->
 
 <h1>Items</h1>
 
