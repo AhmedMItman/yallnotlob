@@ -3,12 +3,19 @@ class OrdersController < ApplicationController
   # GET /orders
   # GET /orders.json
   def index
-    @orders = Order.all.paginate(:page => params[:page], :per_page => 1)
+    @orders = Order.all.paginate(:page => params[:page], :per_page => 3)
   end
 
   # GET /orders/1
   # GET /orders/1.json
   def show
+    print("ooooooooooooooooooooooooooooooooooooooooooooooooop")
+    @orderInvitedFriend=FriendOrder.where(order_id:@order.id)
+    @orderInvitedFriend.each do |f|
+      print("sssssssssssssssssssssssssssssssssssssssssssssssssss")
+      print(f.id)
+    end
+
   end
 
   # GET /orders/new
@@ -16,6 +23,7 @@ class OrdersController < ApplicationController
 
 
     @order = Order.new
+
 
     if current_user
       @friendships = Friendship.where(user_id: current_user.id)
