@@ -7,6 +7,82 @@ class GroupsController < ApplicationController
     @groups = Group.all
   end
 
+  def userfriends
+    sql = "select users.email from users, friendships where users.id = friendships.friend_id and friendships.user_id=" + params['id']
+    result = ActiveRecord::Base.connection.execute(sql)
+    render json: result
+  end
+
+  # GET /groups
+  # GET /groups.json
+  def groupfriends
+    @group = Group.find(20)
+    # @groups = Group.user
+    # format.json { render :show, status: :created, location: @groups }
+    # format.json { name =>'marei' }
+    # render json: User.where(id: 2)
+
+    # get group 20 friends
+    # sql = "select users.id, users.name, users.image, users.email, groups_users.group_id from users, groups_users where groups_users.user_id = users.id and groups_users.group_id=20"
+    # insert into groups_users set user_id=1, group_id=21;
+
+    # get all friends
+    # select * from friendships where user_id=2
+    # select users.email from users, friendships where users.id = friendships.friend_id and friendships.user_id=2
+
+    # check if email exists in friend lists
+    # select users.email from users, friendships where users.id = friendships.friend_id and friendships.user_id=2 and users.email='mareimorsy@gmail.com';
+
+
+
+    sql = "select users.id, users.name, users.image_file_name, users.email, groups_users.group_id from users, groups_users where groups_users.user_id = users.id and groups_users.group_id=" + params['id']
+    result = ActiveRecord::Base.connection.execute(sql)
+    result.each do |user|
+      if user[2] == nil
+        user[2] = '/images/unknown.jpg'
+      else
+        user[2] = User.find(user[0]).image.url(:medium);
+      end
+    end
+    render json: result
+# <%= image_tag current_user.image.url(:medium) %>
+  
+  end
+
+  def remove_friend_from_group
+    sql = "delete from groups_users where user_id = " + params['user_id'] + " and group_id = " + params['group_id']
+    result = ActiveRecord::Base.connection.execute(sql)
+    render json: params
+  end
+
+  def add_friend_to_group
+    # sql = "delete from groups_users where user_id = " + params['user_id'] + " and group_id = " + params['group_id']
+    # result = ActiveRecord::Base.connection.execute(sql)
+
+    sql = "select users.email from users, friendships where users.id = friendships.friend_id and friendships.user_id=" + params['user_id'] + " and users.email='" + params['email'] + "'"
+    result = ActiveRecord::Base.connection.execute(sql)
+
+    if result.size == 0
+      render json: {'error' => "This user is not on your friend list"}
+    else
+      user_id = User.find_by_email(params['email']).id
+      sql = "select * from groups_users where user_id=" + user_id.to_s + " and group_id=" + params['group_id']
+      result = ActiveRecord::Base.connection.execute(sql)
+
+      if result.size == 0
+         sql = "INSERT INTO groups_users(user_id, group_id) VALUES (" + user_id.to_s + ", " + params['group_id'] + ")"
+         result = ActiveRecord::Base.connection.execute(sql)
+         render json: {'error' => nil}
+      else
+        render json: {'error' => "This user already exists on that group"}
+      end
+    end
+
+    
+
+    
+  end
+
   # GET /groups/1
   # GET /groups/1.json
   def show
@@ -24,8 +100,12 @@ class GroupsController < ApplicationController
   # POST /groups
   # POST /groups.json
   def create
+    # @group = Group.create(group_params)
+    # @group.save
     @group = Group.new
+    puts @group
     @group.name = params['name']
+    puts params['user_id']
     @group.user_id = params['user_id']
 
     respond_to do |format|
