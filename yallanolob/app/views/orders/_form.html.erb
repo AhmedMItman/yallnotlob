@@ -36,7 +36,12 @@
 
     <div class="field">
       <%= form.label :Friends %>
-      <%= form.text_field :user_id, id: :order_user_id %>
+      <%= form.text_field :user_id, id: :order_user_id, list: 'autocompleteList' %>
+      <datalist id="autocompleteList">
+        <% @friendships.each do |friendship|%>
+          <option value=<%= friendship.friend.name %>></option>
+        <% end %>
+      </datalist>
     </div>
 
     <div id="myFriendSelect">

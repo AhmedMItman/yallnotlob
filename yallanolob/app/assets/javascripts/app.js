@@ -94,8 +94,6 @@ $(".deleteItem").on('click',function (e) {
     })
 });
 $("#AddNewOrder").on('click',function (e) {
-
-<<<<<<< HEAD
     var friendsOrder = $('input:checkbox:checked')
     var allFriendsOrder = []
     for (var i = 0 ;  i < friendsOrder.length ; i++)
@@ -103,8 +101,6 @@ $("#AddNewOrder").on('click',function (e) {
         allFriendsOrder[i]=friendsOrder[i].value
     }
 
-=======
->>>>>>> 6e55a6ddf52aed23464e3cc14830787b51361bd2
     token = $('meta[name="csrf-token"]').attr('content');
 
     e.preventDefault()
@@ -167,4 +163,4 @@ $(".DeleteOrder").on('click',function (e) {
         }
 
     })
-})
+});
