@@ -110,8 +110,6 @@ ActiveRecord::Schema.define(version: 20180314144333) do
     t.string "current_sign_in_ip"
     t.string "last_sign_in_ip"
     t.text "image"
-    t.string "password_reset_token"
-    t.datetime "password_reset_sent_at"
     t.string "image_file_name"
     t.string "image_content_type"
     t.integer "image_file_size"

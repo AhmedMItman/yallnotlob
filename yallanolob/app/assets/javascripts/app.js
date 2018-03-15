@@ -94,25 +94,23 @@ $(".deleteItem").on('click',function (e) {
     })
 });
 $("#AddNewOrder").on('click',function (e) {
-
-<<<<<<< HEAD
+    e.preventDefault();
+    //console.log($("#friendName").val())
     var friendsOrder = $('input:checkbox:checked')
     var allFriendsOrder = []
     for (var i = 0 ;  i < friendsOrder.length ; i++)
     {
         allFriendsOrder[i]=friendsOrder[i].value
+        console.log(allFriendsOrder[i])
     }
 
-=======
->>>>>>> 6e55a6ddf52aed23464e3cc14830787b51361bd2
     token = $('meta[name="csrf-token"]').attr('content');
 
-    e.preventDefault()
     $.ajax({
 
         url:'/orders',
         type:'post',
-        data:{authenticity_token:token,order_allFriends:allFriendsOrder,order_resturant:$("#order_resturant").val(),order_menu:$("#order_menu").val(),order_typ:$("#order_typ").val(),order_statu:$("#order_statu").val(),order_user_id:$("#order_user_id").val(),friendEmail:$("#friendEmail").val()},
+        data:{authenticity_token:token,order_allFriends:allFriendsOrder,order_resturant:$("#order_resturant").val(),order_menu:$("#order_menu").val(),order_typ:$("#order_typ").val(),order_statu:$("#order_statu").val(),order_user_id:$("#order_user_id").val(),order_friendName:$("#order_friendName").val()},
         success : function (res) {
          console.log("yeahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh")
         }
@@ -121,12 +119,6 @@ $("#AddNewOrder").on('click',function (e) {
 
 });
 
-$("#chooseFriend").on('keyup',function (e) {
-    if(e.key==',')
-    {
-        alert('catch You')
-    }
-})
 $(".myFriendSelect").on('click',function (e) {
 
     if (!$(this).prop('checked'))
@@ -167,4 +159,4 @@ $(".DeleteOrder").on('click',function (e) {
         }
 
     })
-})
+});
