@@ -15,16 +15,16 @@
   <tbody>
     <% @orders.each do |order| %>
       <tr>
-        <input id="whichOrder" type="hidden" value=<%= order.id %> >
         <td><%= order.resturant %></td>
         <td><%= order.typ %></td>
-        <td><%= order.statu %></td>
+        <td class="Orderstatus"><%= order.statu %></td>
         <td><%= order.user.name %></td>
         <td><%= link_to 'Show', order %></td>
         <% if current_user.name == order.user.name%>
-
-        <td><%= link_to 'Edit', edit_order_path(order) %></td>
-        <td><%= link_to 'Remove', order, method: :delete, :class=>"DeleteOrder",data: { confirm: 'Are you sure?' } %></td>
+          <% if order.statu == "Waiting..." %>
+        <td class="finishOrder" to=<%= order.id %> > <a>Finish</a></td>
+          <td class="DeleteOrder" to=<%= order.id %> > <a>Remove</a></td>
+            <% end %>
         <% end %>
       </tr>
     <% end %>

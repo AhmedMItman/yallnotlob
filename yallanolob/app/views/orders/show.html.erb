@@ -87,12 +87,11 @@
   <% @order.items.each do |item| %>
     <tr itemid=<%= item.id %>>
       <td><%= item.user.name %></td>
-
+      <td><%= item.name %></td>
       <td><%= item.quantity %></td>
       <td><%= item.price %></td>
       <td><%= item.comment %></td>
       <% if current_user.id == item.user_id %>
-      <td><%=  link_to 'Edit', edit_item_path(item) %></td>
         <td class="deleteItem"><a>Delete</a></td>
         <% end %>
     </tr>
@@ -102,17 +101,19 @@
 </div>
 <hr>
 
+<% if @order.statu != "Finished" %>
+
 <div id="addItem">
   <form id="addItemForm" actilina 				Show 	Edit 	Destroyon="/items/new" method="get">
     <input type="hidden" id="item_user_id" value=<%= current_user.id%>/>
     <input type="hidden" id="order_user_id" value=<%= @order.id%>/>
     <label>Name</label><input type="text" id="item_name">
+    <input type="hidden" id="order_user_name" value=<%= @order.user.name%>>
     <label>Quantity</label><input type="number" id="item_quantity">
     <label>Price</label><input step="any" type="number" id="item_price">
     <label>Comment</label><input type="text" id="item_comment">
     <button type="submit">Add Item</button>
   </form>
 </div>
-
-<%= link_to 'Edit', edit_order_path(@order) %> |
+<% end %>
 <%= link_to 'Back', orders_path %>

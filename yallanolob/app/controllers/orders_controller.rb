@@ -1,5 +1,5 @@
 class OrdersController < ApplicationController
-  before_action :set_order, only: [:show, :edit, :update, :destroy]
+  before_action :set_order, only: [:show, :edit, :destroy]
   # GET /orders
   # GET /orders.json
   def index
@@ -78,12 +78,12 @@ class OrdersController < ApplicationController
         end
     end
     end
-    respond_to do |format|
-
-      format.html { redirect_to @order, notice: 'Order was successfully created.' }
-      format.json { render :show, status: :created, location: @order }
-
-    end
+    # respond_to do |format|
+    #
+    #   format.html { redirect_to @order, notice: 'Order was successfully created.' }
+    #   format.json { render :show, status: :created, location: @order }
+    #
+    # end
 
 
   end
@@ -91,15 +91,17 @@ class OrdersController < ApplicationController
   # PATCH/PUT /orders/1
   # PATCH/PUT /orders/1.json
   def update
-    respond_to do |format|
-      if @order.update(order_params)
-        format.html { redirect_to @order, notice: 'Order was successfully updated.' }
-        format.json { render :show, status: :ok, location: @order }
-      else
-        format.html { render :edit }
-        format.json { render json: @order.errors, status: :unprocessable_entity }
-      end
-    end
+    print("ffffffffffffffffffffffff")
+    Order.where(id:params[:id]).update_all(statu:"Finished")
+    # respond_to do |format|
+    #   if @order.update(order_params)
+    #     format.html { redirect_to @order, notice: 'Order was successfully updated.' }
+    #     format.json { render :show, status: :ok, location: @order }
+    #   else
+    #     format.html { render :edit }
+    #     format.json { render json: @order.errors, status: :unprocessable_entity }
+    #   end
+    # end
   end
 
   # DELETE /orders/1
@@ -107,10 +109,10 @@ class OrdersController < ApplicationController
   def destroy
     FriendOrder.where(order_id:@order.id).destroy_all
     @order.destroy
-    respond_to do |format|
-      format.html { redirect_to order_url, notice: 'Order was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    # respond_to do |format|
+    #   format.html { redirect_to order_url, notice: 'Order was successfully destroyed.' }
+    #   format.json { head :no_content }
+    # end
   end
 
   private
