@@ -1,29 +1,73 @@
+<center><img style="width: 200px; height: 200px;" src=<%= @order.menu %> /></center>
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Resturant:</strong>
-  <%= @order.resturant %>
-</p>
+<table class="table">
+  <thead>
+  <tr>
+    <th>Resturant</th>
+    <th>Type</th>
+    <th>Status</th>
+    <th>By</th>
+    <th colspan="3"></th>
+  </tr>
+  </thead>
 
-<p>
-  <strong>Menu:</strong>
-  <%= @order.menu %>
-</p>
+  <tbody>
+    <tr>
+      <td><%= @order.resturant %></td>
+      <td><%= @order.typ %></td>
+      <td><%= @order.statu %></td>
+      <td><%= @order.user.name %></td>
+    </tr>
+  </tbody>
+</table>
 
-<p>
-  <strong>Typ:</strong>
-  <%= @order.typ %>
-</p>
 
-<p>
-  <strong>Statu:</strong>
-  <%= @order.statu %>
-</p>
 
-<p>
-  <strong>User:</strong>
-  <%= @order.user %>
-</p>
+<h1>Items</h1>
+
+<table id="ItemsTable" class="table">
+  <thead>
+  <tr>
+    <th>Person</th>
+    <th>Item</th>
+    <th>Quantity</th>
+    <th>Price</th>
+    <th>Comment</th>
+    <th colspan="3"></th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @order.items.each do |item| %>
+    <tr itemid=<%= item.id %>>
+      <td><%= item.user.name %></td>
+
+      <td><%= item.quantity %></td>
+      <td><%= item.price %></td>
+      <td><%= item.comment %></td>
+      <% if current_user.id == item.user_id %>
+      <td><%=  link_to 'Edit', edit_item_path(item) %></td>
+        <td class="deleteItem"><a>Delete</a></td>
+        <% end %>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+<br>
+
+<div id="addItem">
+  <form id="addItemForm" actilina 				Show 	Edit 	Destroyon="/items/new" method="get">
+    <input type="hidden" id="item_user_id" value=<%= current_user.id%>/>
+    <input type="hidden" id="order_user_id" value=<%= @order.id%>/>
+    <label>Name</label><input type="text" id="item_name">
+    <label>Quantity</label><input type="number" id="item_quantity">
+    <label>Price</label><input step="any" type="number" id="item_price">
+    <label>Comment</label><input type="text" id="item_comment">
+    <button type="submit">Add Item</button>
+  </form>
+</div>
 
 <%= link_to 'Edit', edit_order_path(@order) %> |
 <%= link_to 'Back', orders_path %>
+

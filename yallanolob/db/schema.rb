@@ -10,7 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180313080505) do
+ActiveRecord::Schema.define(version: 20180314144333) do
+
+  create_table "friend_orders", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint "order_id"
+    t.integer "friend_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_friend_orders_on_order_id"
+  end
 
   create_table "friendships", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "user_id"
@@ -41,6 +49,7 @@ ActiveRecord::Schema.define(version: 20180313080505) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "comment"
+    t.string "name"
     t.index ["order_id"], name: "index_items_on_order_id"
     t.index ["user_id"], name: "index_items_on_user_id"
   end
@@ -69,6 +78,10 @@ ActiveRecord::Schema.define(version: 20180313080505) do
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "menu_content_type"
+    t.string "menu_file_name"
+    t.integer "menu_file_size"
+    t.datetime "menu_updated_at"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
@@ -105,5 +118,6 @@ ActiveRecord::Schema.define(version: 20180313080505) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "friend_orders", "orders"
   add_foreign_key "orders", "users"
 end

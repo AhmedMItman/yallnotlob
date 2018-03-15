@@ -1,4 +1,4 @@
-<%= form_with(model: order, local: true) do |form| %>
+<%= form_with(model: order) do |form| %>
   <% if order.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(order.errors.count, "error") %> prohibited this order from being saved:</h2>
@@ -10,7 +10,9 @@
       </ul>
     </div>
   <% end %>
-
+<div class="container">
+  <div class="row">
+  <div class="col-md-6">
   <div class="field">
     <%= form.label :resturant %>
     <%= form.text_field :resturant, id: :order_resturant %>
@@ -18,25 +20,55 @@
 
   <div class="field">
     <%= form.label :menu %>
-    <%= form.text_field :menu, id: :order_menu %>
+    <%= form.file_field :menu, id: :order_menu %>
   </div>
+
+   <select id="order_typ">
+     <option value="Lunch">Lunch</option>
+     <option value="Breakfast">Breakfast</option>
+   </select>
+
 
   <div class="field">
-    <%= form.label :typ %>
-    <%= form.text_field :typ, id: :order_typ %>
+    <%= form.label :status %>
+    <%= form.text_field :statu, id: :order_statu, value: "Waiting...", disabled: true %>
   </div>
 
-  <div class="field">
-    <%= form.label :statu %>
-    <%= form.text_field :statu, id: :order_statu %>
-  </div>
+    <div class="field">
+      <%= form.label :Friends %>
+      <%= form.text_field :user_id, id: :order_friendName, list: 'autocompleteList' %>
+      <datalist id="autocompleteList">
+        <% @friendships.each do |friendship|%>
+          <option value=<%= friendship.friend.name %>></option>
+        <% end %>
+      </datalist>
+    </div>
 
-  <div class="field">
-    <%= form.label :user_id %>
-    <%= form.text_field :user_id, id: :order_user_id %>
-  </div>
+    <div id="myFriendSelect">
+      <ul>
+        <h3>My Friends</h3>
+        <% @friendships.each do |friendship| %>
+          <li friendEmail=<%= friendship.friend.email %> friendname=<%= friendship.friend.name %> friendimg=<%= friendship.friend.image %> >
+            <%= friendship.friend.name %>
+            <%= check_box_tag 'order_allFriends' ,  friendship.friend.id  , false, :class=>"myFriendSelect"  -%>
 
-  <div class="actions">
-    <%= form.submit %>
+          </li>
+        <% end %>
+
+      </ul>
+    </div>
+
+    <div class="actions">
+    <%= form.submit  :id => 'AddNewOrder' %>
   </div>
+  </div>
+    <div id="showFriends" class="col-md-6">
+      <ul>
+
+      </ul>
+    </div>
+  </div>
+</div>
 <% end %>
+
+

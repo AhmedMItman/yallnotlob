@@ -31,7 +31,6 @@ class FriendshipsController < ApplicationController
   # POST /friendships
   # POST /friendships.json
   def create
-    puts("nnnn"+params[:email])
     @searchFriend=User.find_by_email(params[:email])
 
 
