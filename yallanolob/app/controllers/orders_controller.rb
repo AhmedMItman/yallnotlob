@@ -11,7 +11,6 @@ class OrdersController < ApplicationController
   def show
 
     @orderInvitedFriend=FriendOrder.where(order_id:@order.id)
-    print("ooooooooooooooooooooooooooooooooooooo")
     @friendsLength=@orderInvitedFriend.count
     @allinvitedFriends={}
     @orderInvitedFriend.each do |friend|

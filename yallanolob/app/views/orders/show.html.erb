@@ -27,6 +27,7 @@
 </div>
 <div class="col-md-6">
   <a data-toggle="modal" data-target="#myModal"><%= @friendsLength %>  Invited Friends, Click to view</a>
+  <br />
 </div>
 </div>
 <!-- Start First Modal -->
@@ -51,8 +52,8 @@
          <tbody>
            <% @allinvitedFriends.each do |item| %>
              <tr>
-               <td><%= item[1][0] %></td>
-               <td><img style="width:50px;height:50px" src=<%=item[1][1] %> /></td>
+               <td style="font-size: 18px"><%= item[1][0] %></td>
+               <td><img style="width:80px;height:80px" src=<%=item[1][1] %> /></td>
 
              </tr>
            <% end %>
@@ -68,6 +69,7 @@
   </div>
 </div>
 <!-- End First Modal -->
+
 
 <h1>Items</h1>
 
