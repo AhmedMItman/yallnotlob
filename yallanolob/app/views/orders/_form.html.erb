@@ -36,7 +36,7 @@
 
     <div class="field">
       <%= form.label :Friends %>
-      <%= form.text_field :user_id, id: :order_user_id, list: 'autocompleteList' %>
+      <%= form.text_field :user_id, id: :order_friendName, list: 'autocompleteList' %>
       <datalist id="autocompleteList">
         <% @friendships.each do |friendship|%>
           <option value=<%= friendship.friend.name %>></option>
@@ -46,6 +46,7 @@
 
     <div id="myFriendSelect">
       <ul>
+        <h3>My Friends</h3>
         <% @friendships.each do |friendship| %>
           <li friendEmail=<%= friendship.friend.email %> friendname=<%= friendship.friend.name %> friendimg=<%= friendship.friend.image %> >
             <%= friendship.friend.name %>
@@ -57,13 +58,8 @@
       </ul>
     </div>
 
-    <div class="field">
-      <%= form.label :friendName %>
-      <%= form.text_field :friendName, id: :friendName, :id => 'chooseFriend' %>
-    </div>
-
     <div class="actions">
-    <%= form.submit %>
+    <%= form.submit  :id => 'AddNewOrder' %>
   </div>
   </div>
     <div id="showFriends" class="col-md-6">

@@ -37,21 +37,21 @@ class OrdersController < ApplicationController
   # POST /orders.json
   def create
 
-    print("linaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-    # print(params[:order_allFriends])
+     # print("hhhhhhhhhhhhhhhhhh"+params[:order_resturant])
     @order = Order.new(resturant:params[:order_resturant],menu:params[:order_menu],typ:params[:order_typ],statu:params[:order_statu],user_id:current_user.id)
     @order.save
-    @isUser=User.find_by_name(params[:friendName])
+    @isUser=User.find_by_name(params[:order_friendName])
+    print(params[:order_friendName])
     if @isUser !=nil
-
       @isFriendBefore=Friendship.where(user_id:current_user.id,friend_id:@isUser.id).exists?(conditions = :none)
-
       if @isFriendBefore == true
         @orderWithFriends = FriendOrder.new(order_id:@order.id,friend_id:@isUser.id)
+        @orderWithFriends.save
       end
 
     end
 
+    if params[:order_allFriends] != nil
     params[:order_allFriends].each do  |f|
         print(f)
         @isUser=User.find_by_id(f)
@@ -60,20 +60,19 @@ class OrdersController < ApplicationController
           if @isFriendBefore == true
             print(@order.id)
               @orderWithFriends = FriendOrder.new(order_id:@order.id,friend_id:f)
-
-            respond_to do |format|
-              if @orderWithFriends.save
-              format.html { redirect_to @order, notice: 'Order was successfully created.' }
-                format.json { render :show, status: :created, location: @order }
-              else
-                format.html { render :new }
-                format.json { render json: @order.errors, status: :unprocessable_entity }
-              end
-            end
+            @orderWithFriends.save
 
           end
         end
     end
+    end
+    respond_to do |format|
+
+      format.html { redirect_to @order, notice: 'Order was successfully created.' }
+      format.json { render :show, status: :created, location: @order }
+
+    end
+
 
   end
 
