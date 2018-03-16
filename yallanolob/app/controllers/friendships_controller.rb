@@ -1,5 +1,5 @@
 class FriendshipsController < ApplicationController
-  before_action :set_friendship, only: [:show, :edit, :update, :destroy]
+  before_action :set_friendship, only: [:show, :edit, :update]
 
   # GET /friendships
   # GET /friendships.json
@@ -82,11 +82,11 @@ class FriendshipsController < ApplicationController
   # DELETE /friendships/1
   # DELETE /friendships/1.json
   def destroy
-    @friendship.destroy
-    respond_to do |format|
-      format.html { redirect_to friendships_url, notice: 'Friendship was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    Friendship.where(friend_id:params[:id]).destroy_all
+    # respond_to do |format|
+    #   format.html { redirect_to friendships_url, notice: 'Friendship was successfully destroyed.' }
+    #   format.json { head :no_content }
+    # end
   end
 
   private

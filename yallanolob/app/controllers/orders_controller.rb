@@ -1,5 +1,5 @@
 class OrdersController < ApplicationController
-  before_action :set_order, only: [:show, :edit, :update, :destroy]
+  before_action :set_order, only: [:show, :edit, :destroy]
   # GET /orders
   # GET /orders.json
   def index
@@ -11,7 +11,6 @@ class OrdersController < ApplicationController
   def show
 
     @orderInvitedFriend=FriendOrder.where(order_id:@order.id)
-    print("ooooooooooooooooooooooooooooooooooooo")
     @friendsLength=@orderInvitedFriend.count
     @allinvitedFriends={}
     @orderInvitedFriend.each do |friend|
@@ -52,18 +51,23 @@ class OrdersController < ApplicationController
      # print("hhhhhhhhhhhhhhhhhh"+params[:order_resturant])
     @order = Order.new(resturant:params[:order_resturant],menu:params[:order_menu],typ:params[:order_typ],statu:params[:order_statu],user_id:current_user.id)
     @order.save
-    ActionCable.server.broadcast  "notify_channel_#{current_user.id}", @order
-    
+    # ActionCable.server.broadcast  "notify_channel_#{current_user.id}", @order
+
     @isUser=User.find_by_name(params[:order_friendName])
     print(params[:order_friendName])
     if @isUser !=nil
       @isFriendBefore=Friendship.where(user_id:current_user.id,friend_id:@isUser.id).exists?(conditions = :none)
+      @notify = Notification.create message: "I'm making an order, Would you like to Join me?",from: :order_friendName,  typ: "invite", orderId: @order.id
+      NotificationsUser.create user_id: current_user.id, notification_id: @notify.id
+      ActionCable.server.broadcast  "notify_channel_#{current_user.id}", @order
       if @isFriendBefore == true
         @orderWithFriends = FriendOrder.new(order_id:@order.id,friend_id:@isUser.id)
         @orderWithFriends.save
-      end
 
+      end
     end
+
+
 
     if params[:order_allFriends] != nil
     params[:order_allFriends].each do  |f|
@@ -71,37 +75,38 @@ class OrdersController < ApplicationController
         @isUser=User.find_by_id(f)
         if @isUser != nil
           @isFriendBefore=Friendship.where(user_id:current_user.id,friend_id:f).exists?(conditions = :none)
+          @notify = Notification.new( message: "I'm making an order, Would you like to Join me?",from: current_user.name,  typ: "invite", orderId: @order.id)
+          @notify.save
+        end
           if @isFriendBefore == true
             print(@order.id)
               @orderWithFriends = FriendOrder.new(order_id:@order.id,friend_id:f)
+              # NotificationUsers.create(user_id: @orderWithFriends.friend_id, notification_id: @notify.id)
+              @notify.users.push(@notify.id,current_user)
+              ActionCable.server.broadcast  "notify_channel_#{f}", @notify
             @orderWithFriends.save
 
           end
         end
     end
-    end
-    respond_to do |format|
-
-      format.html { redirect_to @order, notice: 'Order was successfully created.' }
-      format.json { render :show, status: :created, location: @order }
-
-    end
-
+    # end
 
   end
 
   # PATCH/PUT /orders/1
   # PATCH/PUT /orders/1.json
   def update
-    respond_to do |format|
-      if @order.update(order_params)
-        format.html { redirect_to @order, notice: 'Order was successfully updated.' }
-        format.json { render :show, status: :ok, location: @order }
-      else
-        format.html { render :edit }
-        format.json { render json: @order.errors, status: :unprocessable_entity }
-      end
-    end
+    print("ffffffffffffffffffffffff")
+    Order.where(id:params[:id]).update_all(statu:"Finished")
+    # respond_to do |format|
+    #   if @order.update(order_params)
+    #     format.html { redirect_to @order, notice: 'Order was successfully updated.' }
+    #     format.json { render :show, status: :ok, location: @order }
+    #   else
+    #     format.html { render :edit }
+    #     format.json { render json: @order.errors, status: :unprocessable_entity }
+    #   end
+    # end
   end
 
   # DELETE /orders/1
@@ -109,10 +114,10 @@ class OrdersController < ApplicationController
   def destroy
     FriendOrder.where(order_id:@order.id).destroy_all
     @order.destroy
-    respond_to do |format|
-      format.html { redirect_to orders_url, notice: 'Order was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    # respond_to do |format|
+    #   format.html { redirect_to order_url, notice: 'Order was successfully destroyed.' }
+    #   format.json { head :no_content }
+    # end
   end
 
   private

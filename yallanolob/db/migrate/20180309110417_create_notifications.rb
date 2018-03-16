@@ -3,7 +3,7 @@ class CreateNotifications < ActiveRecord::Migration[5.1]
     create_table :notifications do |t|
       t.string :message
       t.string :from
-      t.string :type
+      t.string :typ
       t.integer :orderId
 
       t.timestamps

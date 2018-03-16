@@ -59,8 +59,9 @@
     </div>
 
     <div class="actions">
-    <%= form.submit  :id => 'AddNewOrder' %>
+    <%=  form.button :submit,id: 'AddNewOrder'  %>
   </div>
+    <%= link_to 'Back', orders_path %>
   </div>
     <div id="showFriends" class="col-md-6">
       <ul>
@@ -70,5 +71,3 @@
   </div>
 </div>
 <% end %>
-
-

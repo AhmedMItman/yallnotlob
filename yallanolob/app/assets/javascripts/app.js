@@ -182,7 +182,8 @@ $('#addItemForm').on('submit',function (e) {
         data : { item_user_id:$("#item_user_id").val(),order_user_id:$("#order_user_id").val(),item_name:$("#item_name").val()
         ,item_quantity:$("#item_quantity").val(),item_price:$("#item_price").val(),item_comment:$("#item_comment").val()},
         success :function (r) {
-            $("#ItemsTable tbody").append("<tr><td>"+$("#item_name").val()+"</td><td>"+$("#item_quantity").val()+"</td><td>"+$("#item_price").val()+"</td><td>"+$("#item_comment").val()+"</td></tr>")
+            $("#ItemsTable tbody").append("<tr><td>"+$("#order_user_name").val()+"</td><td>"+$("#item_name").val()+"</td><td>"+$("#item_quantity").val()+"</td><td>"+$("#item_price").val()+"</td><td>"+$("#item_comment").val()+"</td><td class=deleteItem><a>Delete</a></td></tr>")
+            success("Your Item Has been Added")
         }
     })
 })
@@ -197,6 +198,11 @@ $(".deleteItem").on('click',function (e) {
         type:'delete',
         data : {authenticity_token:token},
         success :function (r) {
+            error("Your Item has been deleted Now :(")
+        },
+        error : function (r) {
+            error("There is a problem")
+
         }
     })
 });
@@ -219,7 +225,13 @@ $("#AddNewOrder").on('click',function (e) {
         type:'post',
         data:{authenticity_token:token,order_allFriends:allFriendsOrder,order_resturant:$("#order_resturant").val(),order_menu:$("#order_menu").val(),order_typ:$("#order_typ").val(),order_statu:$("#order_statu").val(),order_user_id:$("#order_user_id").val(),order_friendName:$("#order_friendName").val()},
         success : function (res) {
+
          console.log("yeahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh")
+            success("the order has Created successfully!")
+        },
+
+        error:function (res) {
+            error("There is a problem ! :)")
         }
 
     });
@@ -254,16 +266,62 @@ $(".DeleteOrder").on('click',function (e) {
     e.preventDefault()
         //console.log($("#whichOrder")[0].value)
     token = $('meta[name="csrf-token"]').attr('content');
-    id=$("#whichOrder")[0].value
-    $(this).parent().parent().remove()
+    id= $(this).attr("to")
+    $(this).parent().remove()
     $.ajax({
         url: '/orders/'+id,
         type:'delete',
         data : {authenticity_token:token},
         success :function (r) {
-        console.log('yeeeeeeah')
+            error("Your Order has been deleted Now :(")
 
+        },
+        error:function (res) {
+            error("There is a problem")
         }
 
     })
 });
+
+$(".finishOrder").on('click',function (e) {
+    // alert($(this).attr("to"))
+
+    id = $(this).attr("to") ;
+    token = $('meta[name="csrf-token"]').attr('content');
+    $(this).parent()[0].childNodes[5].textContent="Finished"
+    $.ajax({
+        url: /orders/+id,
+        type:'put',
+        data:{authenticity_token:token,id:id},
+        success :function (r) {
+
+            success("Your Order has been Finished Now")
+
+
+        },
+        error:function (res) {
+            error("There is a problem")
+        }
+
+    })
+
+})
+
+$(".deleteFriend").on('click',function (e) {
+    e.preventDefault()
+    $(this).parent().remove()
+    token = $('meta[name="csrf-token"]').attr('content');
+    var id = $(this).attr("to")
+    $.ajax({
+        url:'/friendships/'+id,
+        type: 'delete',
+        data : {authenticity_token:token,id:id},
+        success :function (res) {
+            error("S/He is not Friend from Now :(")
+
+        },
+        error:function (res) {
+            error('There is a problem')
+        }
+    })
+})
