@@ -52,6 +52,8 @@ class OrdersController < ApplicationController
      # print("hhhhhhhhhhhhhhhhhh"+params[:order_resturant])
     @order = Order.new(resturant:params[:order_resturant],menu:params[:order_menu],typ:params[:order_typ],statu:params[:order_statu],user_id:current_user.id)
     @order.save
+    ActionCable.server.broadcast  "notify_channel_#{current_user.id}", @order
+    
     @isUser=User.find_by_name(params[:order_friendName])
     print(params[:order_friendName])
     if @isUser !=nil

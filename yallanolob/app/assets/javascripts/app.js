@@ -105,7 +105,7 @@ $('#add-frnd').click(function(){
 		// }
 		// self.parent().parent().remove()
 		// success("The user has removed successfully from the group!")
-		
+
 	});
 });
 
