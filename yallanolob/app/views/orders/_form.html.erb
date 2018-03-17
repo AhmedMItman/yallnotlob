@@ -35,17 +35,20 @@
   </div>
 
     <div class="field">
-      <%= form.label :Friends %>
+      <%= form.label :Friend_Group %>
       <%= form.text_field :user_id, id: :order_friendName, list: 'autocompleteList' %>
       <datalist id="autocompleteList">
         <% @friendships.each do |friendship|%>
           <option value=<%= friendship.friend.name %>></option>
         <% end %>
+        <% @allFreindinGroup.each do |g|%>
+          <option value=<%= g.name %>></option>
+        <% end %>
       </datalist>
     </div>
 
     <div id="myFriendSelect">
-      <ul>
+      <ul id="myFriendSelectUL">
         <h3>My Friends</h3>
         <% @friendships.each do |friendship| %>
           <li friendEmail=<%= friendship.friend.email %> friendname=<%= friendship.friend.name %> friendimg=<%= friendship.friend.image %> >

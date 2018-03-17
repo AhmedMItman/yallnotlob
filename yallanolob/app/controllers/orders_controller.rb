@@ -3,7 +3,10 @@ class OrdersController < ApplicationController
   # GET /orders
   # GET /orders.json
   def index
-    @orders = Order.all.paginate(:page => params[:page], :per_page => 3)
+
+    @inivtedOrder = Order.joins(:friend_orders).where(friend_orders:{friend_id:current_user.id}).paginate(:page => params[:page], :per_page => 3)
+    @orders = Order.where(user_id:current_user.id).paginate(:page => params[:page], :per_page => 3)
+
   end
 
   # GET /orders/1
@@ -30,6 +33,7 @@ class OrdersController < ApplicationController
 
     if current_user
       @friendships = Friendship.where(user_id: current_user.id)
+      @allFreindinGroup = Group.all
     else
       @friendships=nil
       respond_to do |format|
@@ -51,29 +55,68 @@ class OrdersController < ApplicationController
      # print("hhhhhhhhhhhhhhhhhh"+params[:order_resturant])
     @order = Order.new(resturant:params[:order_resturant],menu:params[:order_menu],typ:params[:order_typ],statu:params[:order_statu],user_id:current_user.id)
     @order.save
-    @isUser=User.find_by_name(params[:order_friendName])
-    print(params[:order_friendName])
-    if @isUser !=nil
-      @isFriendBefore=Friendship.where(user_id:current_user.id,friend_id:@isUser.id).exists?(conditions = :none)
-      if @isFriendBefore == true
-        @orderWithFriends = FriendOrder.new(order_id:@order.id,friend_id:@isUser.id)
+
+    @isGroup=Group.find_by_name(params[:order_friendName])
+
+    if @isGroup != nil
+      #print(@isGroup.id.to_s)
+
+      # @allFreindinGroup = User.joins(:groups).where(groups: {name:@isGroup.name})
+
+      sql = "select users.id from users, groups_users where groups_users.user_id = users.id and groups_users.group_id="+@isGroup.id.to_s
+
+      @allFreindinGroup = ActiveRecord::Base.connection.execute(sql)
+
+      print(@allFreindinGroup)
+      @friendsOfGroup=[]
+      @allFreindinGroup.each do |f|
+
+        @orderWithFriends = FriendOrder.new(order_id:@order.id,friend_id:f[0])
         @orderWithFriends.save
+
+        @friendsOfGroup.push(User.find(f[0]))
+
       end
 
+      # print(@allFreindinGroup)
+
+    else
+
+      @isUser=User.find_by_name(params[:order_friendName])
+      print(params[:order_friendName])
+      if @isUser !=nil
+        @isOrderedBefore = FriendOrder.where(friend_id:@isUser.id , order_id:@order.id)
+        # if @isOrderedBefore ==nil
+        # @isFriendBefore=Friendship.where(user_id:current_user.id,friend_id:@isUser.id).exists?(conditions = :none)
+        if @isFriendBefore == true
+          @orderWithFriends = FriendOrder.new(order_id:@order.id,friend_id:@isUser.id)
+          @orderWithFriends.save
+        # end
+        end
+      # end
+
     end
+
+
 
     if params[:order_allFriends] != nil
     params[:order_allFriends].each do  |f|
         print(f)
         @isUser=User.find_by_id(f)
-        if @isUser != nil
+        # if @isUser != nil
+        #   print("mmmmmmmmmmmmmmmmmmmmmmmmmmmmmm")
+        #   @isOrderedBefore = FriendOrder.where(friend_id:@isUser.id , order_id:@order.id)
+        #   print("lllllllllllllllllllll")
+        #   print(@isOrderedBefore)
+        #   if @isOrderedBefore ==nil
+        #     print("nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn")
           @isFriendBefore=Friendship.where(user_id:current_user.id,friend_id:f).exists?(conditions = :none)
           if @isFriendBefore == true
             print(@order.id)
               @orderWithFriends = FriendOrder.new(order_id:@order.id,friend_id:f)
             @orderWithFriends.save
-
-          end
+      end
+          # end
         end
     end
     end
@@ -84,6 +127,9 @@ class OrdersController < ApplicationController
     #
     # end
 
+    if @isGroup != nil
+      render json: {friendsOfGroup:@friendsOfGroup}
+    end
 
   end
 
