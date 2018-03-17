@@ -1,4 +1,5 @@
 class GroupsController < ApplicationController
+  before_action :check_isLogin
   before_action :set_group, only: [:show, :edit, :update, :destroy]
 
   # GET /groups
@@ -144,7 +145,12 @@ class GroupsController < ApplicationController
     def set_group
       @group = Group.find(params[:id])
     end
+  def check_isLogin
+    if !current_user
+      redirect_to root_path
 
+    end
+  end
     # Never trust parameters from the scary internet, only allow the white list through.
     def group_params
       params.require(:group).permit(:name, :user_id)

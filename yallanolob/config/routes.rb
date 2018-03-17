@@ -14,7 +14,9 @@ Rails.application.routes.draw do
   resources :notifications
   resources :user_notifications
   resources :items
-  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
+
+
+  devise_for :users ,  :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
   resources :groups
   resources :users
   root to: "home#index"
