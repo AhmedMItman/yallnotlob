@@ -1,5 +1,4 @@
 <p id="notice"><%= notice %></p>
-
 <h1>Friendships</h1>
 <%= render 'form', friendship: @friendship %>
 <table>
@@ -16,7 +15,7 @@
       <!--<td><% friendship.user.name %></td>-->
       <td><img class ="friendImage" src="<%= friendship.friend.image %>"/> </td>
       <td><%= friendship.friend.name %></td>
-
+      <td class="deleteFriend" to=<%= friendship.friend.id %> ><a>Remove</a></td>
       <!--<td><%= link_to 'Show', friendship %></td>-->
       <!--<td><%= link_to 'Edit', edit_friendship_path(friendship) %></td>-->
       <!--<td><%= link_to 'Remove', friendship, method: :delete, data: { confirm: 'Are you sure?' } %></td>-->

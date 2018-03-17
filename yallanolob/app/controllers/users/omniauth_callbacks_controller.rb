@@ -1,8 +1,4 @@
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
-  def facebook
-     @user = User.from_omniauth(request.env["omniauth.auth"])
-     sign_in_and_redirect @user
-  end
 end
 
 def sign_in_with(provider_name)
@@ -13,4 +9,8 @@ end
 
 def Google
   sign_in_with "Google"
+end
+
+def facebook
+  sign_in_with "facebook"
 end
