@@ -283,6 +283,31 @@ $(".DeleteOrder").on('click',function (e) {
     })
 });
 
+function setNotification(type, text, order_id, date, user_image = "/images/unknown.jpg"){
+	var item = $('.notification').last().clone(true, true);
+	$('.msgs-container').prepend(item)
+	$('.notification-img').attr('src', user_image)
+	$('.notification-text').text(text)
+	$('.notification-date').text(date)
+	if (type == 'join') {
+		$('.notification-link').text('Join')
+		$('.notification-link').addClass('notification-join')
+	}else if(type == 'invite'){
+		$('.notification-link').text('Order')
+		$('.notification-link').addClass('notification-invite')
+		$('.notification-link').attr('href', '/orders/' + order_id)
+	}else{
+		console.error('Notification type must be either "invite" or "join".')
+	}
+	$('.notification-link').attr('orderid', order_id)
+
+	$('.notification').first().removeClass('hidden')
+
+}
+
+// type (str) => invite/join
+setNotification("invite", "Hamada joined your breakfast", 15, "23-02-2018 7:30 PM", "/images/unknown.jpg")
+
 $(".finishOrder").on('click',function (e) {
     // alert($(this).attr("to"))
 

@@ -82,7 +82,7 @@ class OrdersController < ApplicationController
             print(@order.id)
               @orderWithFriends = FriendOrder.new(order_id:@order.id,friend_id:f)
               # NotificationUsers.create(user_id: @orderWithFriends.friend_id, notification_id: @notify.id)
-              @notify.users.push(@notify.id,current_user)
+              @notify.users.push(@isUser)
               ActionCable.server.broadcast  "notify_channel_#{f}", @notify
             @orderWithFriends.save
 
