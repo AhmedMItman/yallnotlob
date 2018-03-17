@@ -28,6 +28,19 @@
         <% end %>
       </tr>
     <% end %>
+
+
+    <% @inivtedOrder.each do |order| %>
+    <tr>
+      <td><%= order.resturant %></td>
+      <td><%= order.typ %></td>
+      <td class="Orderstatus"><%= order.statu %></td>
+      <td><%= order.user.name %></td>
+      <td><%= link_to 'Show', order %></td>
+      <% end %>
+    </tr>
+
+
   </tbody>
 </table>
 

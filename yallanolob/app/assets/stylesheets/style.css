@@ -318,6 +318,13 @@ ul {
 
 }
 
+#showFriends ul li
+{
+    display: inline-block;
+}
+#myFriendSelectUL li{
+    display: inline-block;
+}
 .friendImage {
     width: 100px;
     height: 100px;
@@ -371,4 +378,10 @@ ul {
 	font-weight: bold;
 	font-size: 22px;
 	font-family: "Times New Roman", Times, serif;
+}
+
+ul{
+
+    list-style-type: none;
+
 }
