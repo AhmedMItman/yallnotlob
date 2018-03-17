@@ -10,6 +10,17 @@ function success(msg){
 	$('.success').text(msg);
 }
 
+function updateNotificationsCounter(){
+    msgsNum = $('.msgs-container').children().length
+    if (msgsNum > 0) {
+        $('.noitfications-counter').text(msgsNum).show()
+    }
+}
+
+$(document).ready(function(){
+    updateNotificationsCounter();
+});
+
 $('.btn-edit').on('click',function(){
 	$('.grp-input').hide();
 	$('.grp-controls').show();
@@ -360,11 +371,21 @@ function setNotification(type, text, order_id, date, user_image = "/images/unkno
 	$('.notification-link').first().attr('orderid', order_id)
 
 	$('.notification').first().removeClass('hidden')
-
+    updateNotificationsCounter();
 }
 
 // type (str) => invite/join
-setNotification("invite", "Hamada joined your breakfast", 15, "23-02-2018 7:30 PM", "/images/unknown.jpg")
+// setNotification("invite", "Hamada joined your breakfast", 15, "23-02-2018 7:30 PM", "/images/unknown.jpg")
+// setNotification("join", "Hamada joined your breakfast", 16, "23-02-2018 7:30 PM", "/images/unknown.jpg")
+// setNotification("join", "Hamada joined your breakfast", 17, "23-02-2018 7:30 PM", "/images/unknown.jpg")
+// setNotification("invite", "Hamada joined your breakfast", 1, "23-02-2018 7:30 PM", "/images/unknown.jpg")
+
+$('.notification-join').click(function(e){
+    e.preventDefault();
+    order_id = $(this).attr('orderid');
+    user_id = $('#usr-id').text();
+    console.log('Order ID : ', order_id, 'User ID: ', user_id)
+})
 
 $(".finishOrder").on('click',function (e) {
     // alert($(this).attr("to"))

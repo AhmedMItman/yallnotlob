@@ -4,7 +4,8 @@ class GroupsController < ApplicationController
   # GET /groups
   # GET /groups.json
   def index
-    @groups = Group.all
+    # @groups = Group.all
+    @groups = Group.where(user_id: current_user.id)
   end
 
   def userfriends
