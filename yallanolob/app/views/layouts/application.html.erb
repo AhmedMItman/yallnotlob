@@ -50,106 +50,35 @@
           <li class="<%= yield :rdrscls %>"><a href="/orders"><i class="fa fa-fw fa-list-ul"></i> Orders</a></li>
         </ul>
 
+        <% if current_user %>
+          <span id="usr-id" class="hidden"><%= current_user.id %></span>
+        <% end %>
+
         <ul class="nav navbar-nav navbar-right">
 
             <% if user_signed_in? %>
 
               <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-fw fa-bell"></i> Notifications <span class="badge badge-alert">5</span> <span class="caret"></span></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-fw fa-bell"></i> Notifications <span class="badge badge-alert noitfications-counter">5</span> <span class="caret"></span></a>
                 <ul class="dropdown-menu msgs-menu">
                   <div class="msgs-container">
 
-                    <div class="media">
-                      <div class="pull-left">
-                        <img src="images/marei.jpg">
+                    <% @notifications.each do |notification| %>
+                      <div class="media notification">
+                        <div class="pull-left">
+                          <img class="notification-img" src="/images/unknown.jpg">
+                        </div>
+
+                        <div class="media-body">
+                          <% if notification[3] == "invite" %>
+                            <span class="notification-text"><%= notification[1] %></span> <a class="notification-link notification-join" href="#" orderid="<%= notification[4] %>">Join</a>
+                          <% else %>
+                            <span class="notification-text"><%= notification[1] %></span> <a class="notification-link notification-invite" href="/orders/<%= notification[4] %>" orderid="<%= notification[4] %>">Order</a>
+                          <% end %>
+                          <small class="text-muted msg-time"><i class="fa fa-clock-o"></i> <span class="notification-date"><%= notification[5] %></span></small>
+                        </div>
                       </div>
-
-                      <div class="media-body">
-                        Ahmed joined your breakfast <a href="#">Order</a>
-
-                        <small class="text-muted msg-time"><i class="fa fa-clock-o"></i> 23-02-2016 7:30 PM</small>
-                      </div>
-
-                    </div>
-
-                    <div class="media">
-                      <div class="pull-left">
-                        <img src="images/unknown.jpg">
-                      </div>
-
-                      <div class="media-body">
-                        Islam invited you to his order <a href="#">Join</a>
-
-                        <small class="text-muted msg-time"><i class="fa fa-clock-o"></i> 23-02-2016 7:30 PM</small>
-
-                      </div>
-                    </div>
-
-
-                    <div class="media">
-                      <div class="pull-left">
-                        <img src="images/marei.jpg">
-                      </div>
-
-                      <div class="media-body">
-                        Reem joined your lunch <a href="#">Order</a>
-
-                        <small class="text-muted msg-time"><i class="fa fa-clock-o"></i> 23-02-2016 7:30 PM</small>
-
-                      </div>
-                    </div>
-
-                    <div class="media">
-                      <div class="pull-left">
-                        <img src="images/unknown.jpg">
-                      </div>
-
-                      <div class="media-body">
-                        Areej invited you to her order <a href="#">Join</a>
-
-                        <small class="text-muted msg-time"><i class="fa fa-clock-o"></i> 23-02-2016 7:30 PM</small>
-
-                      </div>
-                    </div>
-
-                    <div class="media">
-                      <div class="pull-left">
-                        <img src="images/marei.jpg">
-                      </div>
-
-                      <div class="media-body">
-                        Aamenah joined your breakfast <a href="#">Order</a>
-
-                        <small class="text-muted msg-time"><i class="fa fa-clock-o"></i> 23-02-2016 7:30 PM</small>
-
-                      </div>
-                    </div>
-
-                    <div class="media">
-                      <div class="pull-left">
-                        <img src="images/marei.jpg">
-                      </div>
-
-                      <div class="media-body">
-                        Reem joined your lunch <a href="#">Order</a>
-
-                        <small class="text-muted msg-time"><i class="fa fa-clock-o"></i> 23-02-2016 7:30 PM</small>
-
-                      </div>
-                    </div>
-
-                    <div class="media">
-                      <div class="pull-left">
-                        <img src="images/unknown.jpg">
-                      </div>
-
-                      <div class="media-body">
-                        Areej invited you to her order <a href="#">Join</a>
-
-                        <small class="text-muted msg-time"><i class="fa fa-clock-o"></i> 23-02-2016 7:30 PM</small>
-
-                      </div>
-                    </div>
+                    <% end %>
 
                   </div> <!-- ./msgs-container -->
 
@@ -202,6 +131,7 @@
     <div class="alert alert-success success" role="alert"></div>
 <!--     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p> -->
+
     <%= yield %>
   </div><!-- /.container -->
 

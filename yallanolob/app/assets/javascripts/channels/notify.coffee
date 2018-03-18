@@ -8,7 +8,15 @@ App.notify = App.cable.subscriptions.create "NotifyChannel",
 
   received: (data) ->
     console.log data
-    # Called when there's incoming data on the websocket for this channel
+    if data['typ'] == "finished"
+      takeIDFromNotification(data['orderId'],"finished")
+
+    if data['typ'] == "cancel"
+      takeIDFromNotification(data['orderId'],"cancel")
+
+    setNotification data['typ'], data['message'] , data['orderId'], data['created_at']
+
+
 
   invite: ->
     @perform 'invite'

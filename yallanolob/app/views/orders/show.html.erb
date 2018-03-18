@@ -110,7 +110,7 @@
     <input type="hidden" id="item_user_id" value=<%= current_user.id%>/>
     <input type="hidden" id="order_user_id" value=<%= @order.id%>/>
     <label>Name</label><input type="text" id="item_name">
-    <input type="hidden" id="order_user_name" value=<%= @order.user.name%>>
+    <input type="hidden" id="order_user_name" value=<%= @current_user.name%>>
     <label>Quantity</label><input type="number" id="item_quantity">
     <label>Price</label><input  step="0.01" type="number" id="item_price">
     <label>Comment</label><input type="text" id="item_comment">

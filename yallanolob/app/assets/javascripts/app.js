@@ -10,6 +10,17 @@ function success(msg){
 	$('.success').text(msg);
 }
 
+function updateNotificationsCounter(){
+    msgsNum = $('.msgs-container').children().length
+    if (msgsNum > 0) {
+        $('.noitfications-counter').text(msgsNum).show()
+    }
+}
+
+$(document).ready(function(){
+    updateNotificationsCounter();
+});
+
 $('.btn-edit').on('click',function(){
 	$('.grp-input').hide();
 	$('.grp-controls').show();
@@ -179,8 +190,11 @@ $('#addItemForm').on('submit',function (e) {
     $.ajax({
         url: '/items/new',
         type:'get',
-        data : { item_user_id:$("#item_user_id").val(),order_user_id:$("#order_user_id").val(),item_name:$("#item_name").val()
-        ,item_quantity:$("#item_quantity").val(),item_price:$("#item_price").val(),item_comment:$("#item_comment").val()},
+        data : { item_user_id:$("#item_user_id").val(),
+				order_user_id:$("#order_user_id").val(),
+				item_name:$("#item_name").val()
+        ,item_quantity:$("#item_quantity").val(),
+				item_price:$("#item_price").val(),item_comment:$("#item_comment").val()},
         success :function (r) {
             $("#ItemsTable tbody").append("<tr><td>"+$("#order_user_name").val()+"</td><td>"+$("#item_name").val()+"</td><td>"+$("#item_quantity").val()+"</td><td>"+$("#item_price").val()+"</td><td>"+$("#item_comment").val()+"</td><td><a>Delete</a></td></tr>")
             // var el = document.createElement('td')
@@ -264,7 +278,7 @@ $("#AddNewOrder").on('click',function (e) {
 
                 console.log("yeahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh")
                 success("the order has Created successfully!")
-                console.log(res.friendsOfGroup)
+                // console.log(res.friendsOfGroup)
                 for(var i = 0 ; i < res.friendsOfGroup.length;i++)
                 {
 
@@ -354,18 +368,34 @@ function setNotification(type, text, order_id, date, user_image = "/images/unkno
 		$('.notification-link').first().text('Order')
 		$('.notification-link').first().addClass('notification-invite')
 		$('.notification-link').first().attr('href', '/orders/' + order_id)
-	}else{
+	}else if(type == 'finished'){
+		$('.notification-link').first().text('Order')
+		$('.notification-link').first().remove()
+	}else if(type == 'cancel'){
+		$('.notification-link').first().text('Order')
+		$('.notification-link').first().remove()
+		}else{
 		console.error('Notification type must be either "invite" or "join".')
 	}
+
 	$('.notification-link').first().attr('orderid', order_id)
-
 	$('.notification').first().removeClass('hidden')
-
+    updateNotificationsCounter();
 }
 
 // type (str) => invite/join
-setNotification("invite", "Hamada joined your breakfast", 15, "23-02-2018 7:30 PM", "/images/unknown.jpg")
-setNotification("join", "Hamada joined your breakfast", 15, "23-02-2018 7:30 PM", "/images/unknown.jpg")
+// setNotification("invite", "Hamada joined your breakfast", 15, "23-02-2018 7:30 PM", "/images/unknown.jpg")
+// setNotification("join", "Hamada joined your breakfast", 16, "23-02-2018 7:30 PM", "/images/unknown.jpg")
+// setNotification("join", "Hamada joined your breakfast", 17, "23-02-2018 7:30 PM", "/images/unknown.jpg")
+// setNotification("invite", "Hamada joined your breakfast", 1, "23-02-2018 7:30 PM", "/images/unknown.jpg")
+
+$('.notification-join').click(function(e){
+    e.preventDefault();
+    order_id = $(this).attr('orderid');
+    user_id = $('#usr-id').text();
+		window.location.href = "/orders/" + order_id;
+    console.log('Order ID : ', order_id, 'User ID: ', user_id)
+})
 
 $(".finishOrder").on('click',function (e) {
     // alert($(this).attr("to"))
@@ -412,3 +442,17 @@ $(".deleteFriend").on('click',function (e) {
         }
     })
 })
+
+function takeIDFromNotification( index,whichAction)
+{
+	if(whichAction == "finished" )
+	$("#"+index).text("Finished")
+	else if(whichAction=="cancel")
+	{
+			$("#"+index).parent().remove()
+	}
+	console.log($("#"+index))
+
+}
+
+takeIDFromNotification(158)
