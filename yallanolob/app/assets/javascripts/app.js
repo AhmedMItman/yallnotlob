@@ -275,7 +275,7 @@ $("#AddNewOrder").on('click',function (e) {
 
                 console.log("yeahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh")
                 success("the order has Created successfully!")
-                console.log(res.friendsOfGroup)
+                // console.log(res.friendsOfGroup)
                 for(var i = 0 ; i < res.friendsOfGroup.length;i++)
                 {
 

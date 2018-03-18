@@ -1,8 +1,10 @@
 class OrdersController < ApplicationController
+  before_action :check_isLogin
   before_action :set_order, only: [:show, :edit, :destroy]
   # GET /orders
   # GET /orders.json
   def index
+
 
     @inivtedOrder = Order.joins(:friend_orders).where(friend_orders:{friend_id:current_user.id}).paginate(:page => params[:page], :per_page => 3)
     @orders = Order.where(user_id:current_user.id).paginate(:page => params[:page], :per_page => 3)
@@ -165,7 +167,12 @@ class OrdersController < ApplicationController
     def set_order
       @order = Order.find(params[:id])
     end
+    def check_isLogin
+      if !current_user
+        redirect_to root_path
 
+      end
+      end
     # Never trust parameters from the scary internet, only allow the white list through.
     def order_params
       params.require(:order).permit(:resturant, :menu, :typ, :statu, :user_id,:test)

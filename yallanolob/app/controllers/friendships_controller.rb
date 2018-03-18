@@ -1,4 +1,5 @@
 class FriendshipsController < ApplicationController
+  before_action :check_isLogin
   before_action :set_friendship, only: [:show, :edit, :update]
 
   # GET /friendships
@@ -94,7 +95,12 @@ class FriendshipsController < ApplicationController
   def set_friendship
     @friendship = Friendship.find(params[:id])
   end
+  def check_isLogin
+    if !current_user
+      redirect_to root_path
 
+    end
+  end
   # Never trust parameters from the scary internet, only allow the white list through.
   def friendship_params
     params.require(:friendship).permit(:user_id, :friend_id)
