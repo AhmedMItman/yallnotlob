@@ -57,21 +57,23 @@ class OrdersController < ApplicationController
     @order.save
     # ActionCable.server.broadcast  "notify_channel_#{current_user.id}", @order
 
-    @isUser=User.find_by_name(params[:order_friendName])
-    print(params[:order_friendName])
-    if @isUser !=nil
-      @isFriendBefore=Friendship.where(user_id:current_user.id,friend_id:@isUser.id).exists?(conditions = :none)
-      @notify = Notification.create message: "I'm making an order, Would you like to Join me?",from: :order_friendName,  typ: "invite", orderId: @order.id
-      NotificationsUser.create user_id: current_user.id, notification_id: @notify.id
-      ActionCable.server.broadcast  "notify_channel_#{current_user.id}", @order
-      if @isFriendBefore == true
-        @orderWithFriends = FriendOrder.new(order_id:@order.id,friend_id:@isUser.id)
-        @orderWithFriends.save
-
-      end
+    # @isUser=User.find_by_name(params[:order_friendName])
+    # print(params[:order_friendName])
+    # if @isUser !=nil
+    #   @isFriendBefore=Friendship.where(user_id:current_user.id,friend_id:@isUser.id).exists?(conditions = :none)
+    #   @notify = Notification.create message: "I'm making an order, Would you like to Join me?",from: :order_friendName,  typ: "invite", orderId: @order.id
+    #   # NotificationsUser.create user_id: current_user.id, notification_id: @notify.id
+    #   if @isFriendBefore == true
+    #     @orderWithFriends = FriendOrder.new(order_id:@order.id,friend_id:@isUser.id)
+    #     @orderWithFriends.save
+    #     # @notify.users << @isUser
+    #     # @notify.users.user_id =current_user.id
+    #     # @notify.users.notification_id = @notify.id
+    #     ActionCable.server.broadcast  "notify_channel_#{current_user.id}", @notify
+    #   end
+    # end
 
     @isGroup=Group.find_by_name(params[:order_friendName])
-
     if @isGroup != nil
       #print(@isGroup.id.to_s)
 
@@ -105,6 +107,7 @@ class OrdersController < ApplicationController
         if @isFriendBefore == true
           @orderWithFriends = FriendOrder.new(order_id:@order.id,friend_id:@isUser.id)
           @orderWithFriends.save
+
         # end
         end
       # end
@@ -132,7 +135,7 @@ class OrdersController < ApplicationController
             print(@order.id)
               @orderWithFriends = FriendOrder.new(order_id:@order.id,friend_id:f)
               # NotificationUsers.create(user_id: @orderWithFriends.friend_id, notification_id: @notify.id)
-              @notify.users.push(@isUser)
+              # @notify.users.push(@isUser)
               ActionCable.server.broadcast  "notify_channel_#{f}", @notify
             @orderWithFriends.save
       end
