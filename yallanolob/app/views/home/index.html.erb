@@ -11,7 +11,7 @@
                   <% @orders.each do |order| %>
               <b>
               <%= link_to   order_url(order) do %>
-              <%= order.typ %> on <%= order.created_at %> </b>
+              <%= order.typ %> on <%= order.created_at.limit(4) %> </b>
               <% end %>
               <br>
             <% end %>  
