@@ -8,10 +8,10 @@
           <div class="panel-body">
               <div class="row">
                   <div class="col-lg-12">
-                  <% @orders.each do |order| %>
+                  <% @orders.limit(4).each do |order| %>
               <b>
               <%= link_to   order_url(order) do %>
-              <%= order.typ %> on <%= order.created_at.limit(4) %> </b>
+              <%= order.typ %> on <%= order.created_at %> </b>
               <% end %>
               <br>
             <% end %>  
