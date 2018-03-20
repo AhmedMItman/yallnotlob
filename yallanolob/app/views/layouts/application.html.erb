@@ -72,8 +72,14 @@
                         <div class="media-body">
                           <% if notification[3] == "invite" %>
                             <span class="notification-text"><%= notification[1] %></span> <a class="notification-link notification-join" href="#" orderid="<%= notification[4] %>">Join</a>
-                          <% else %>
+                          <% elsif  notification[3] == "join" %>
                             <span class="notification-text"><%= notification[1] %></span> <a class="notification-link notification-invite" href="/orders/<%= notification[4] %>" orderid="<%= notification[4] %>">Order</a>
+                          <% elsif  notification[3] == "cancel" %>
+                            <span class="notification-text"><%= notification[1] %></span>
+                          <% elsif  notification[3] == "finished" %>
+                            <span class="notification-text"><%= notification[1] %></span> <a class="notification-link notification-invite" href="/orders/<%= notification[4] %>" orderid="<%= notification[4] %>">View</a>
+                            <% elsif  notification[3] == "orderOwner" %>
+                            <span class="notification-text"><%= notification[1] %></span> <a class="notification-link notification-invite" href="/orders/<%= notification[4] %>" orderid="<%= notification[4] %>">View</a>                            
                           <% end %>
                           <small class="text-muted msg-time"><i class="fa fa-clock-o"></i> <span class="notification-date"><%= notification[5] %></span></small>
                         </div>
@@ -129,9 +135,8 @@
   <div class="container">
     <div class="alert alert-danger error" role="alert"></div>
     <div class="alert alert-success success" role="alert"></div>
-<!--     <p class="notice"><%= notice %></p>
+    <!-- <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p> -->
-
     <%= yield %>
   </div><!-- /.container -->
 

@@ -10,6 +10,42 @@ class OrdersController < ApplicationController
 
   end
 
+  def join
+    orderid = params['order_id']
+    joinerId = params['user_id']
+    puts "================================"
+    @joiner = User.find_by_id(joinerId)
+    puts @joiner.name
+    puts "================================"
+    @isJoined = Notification.find_by(from:@joiner.name,orderId: orderid,typ:'join')
+    if @isJoined == nil
+        sql = "select * from user_notifications, notifications where user_notifications.notification_id = notifications.id and notifications.typ = 'invite' and notifications.orderId = #{orderid} and user_id <> #{joinerId}"
+        @users = ActiveRecord::Base.connection.execute(sql)
+        @invitor= Notification.where(orderId: orderid,typ:'invite')
+        puts @invitor[0].from
+        puts "================================"
+        @invitor=User.find_by_name(@invitor[0].from)
+        puts @invitor.name
+        @notify = Notification.create(message:"#{@joiner.name} has accepted your Invitation",from:@joiner.name ,typ:"orderOwner",orderId: orderid)
+        UserNotification.create(user_id: @invitor.id,notification_id: @notify.id)
+        ActionCable.server.broadcast "notify_channel_#{@invitor.id}", @notify
+        puts ""
+
+
+        @users.each do |user|
+          @notify = Notification.create(message:"#{@joiner.name} accepted #{@invitor.name} Invitation",from:@joiner.name ,typ:"join",orderId: orderid)
+          #               # puts @notify
+          UserNotification.create(user_id: user[1],notification_id: @notify.id).save
+          ActionCable.server.broadcast "notify_channel_#{user[1]}", @notify
+
+        end
+
+
+        render json: params
+      else
+      end
+  end
+
   # GET /orders/1
   # GET /orders/1.json
   def show
@@ -22,6 +58,10 @@ class OrdersController < ApplicationController
     print(friend.friend_id)
     @user=User.find(friend.friend_id)
     @allinvitedFriends[friend.friend_id]=[@user.name, @user.image]
+    sql = "select count(*) from notifications where typ='join' and orderId = #{@order.id}"
+    @joinersNum = ActiveRecord::Base.connection.execute(sql).first()[0]
+    puts @joinersNum
+
     end
   end
 
@@ -212,8 +252,8 @@ class OrdersController < ApplicationController
       if tes !=nil
         @order = Order.find(params[:id])
       else
-
-        redirect_to '/users/sign_in'
+        flash[:notice] = 'hahahahahaha'
+        # redirect_to '/'
       end
     end
 

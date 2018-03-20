@@ -365,7 +365,7 @@ function setNotification(type, text, order_id, date, user_image = "/images/unkno
 		$('.notification-link').first().text('Join')
 		$('.notification-link').first().addClass('notification-join')
 	}else if(type == 'invite'){
-		$('.notification-link').first().text('Order')
+		$('.notification-link').first().text('Join')
 		$('.notification-link').first().addClass('notification-invite')
 		$('.notification-link').first().attr('href', '/orders/' + order_id)
 	}else if(type == 'finished'){
@@ -374,7 +374,11 @@ function setNotification(type, text, order_id, date, user_image = "/images/unkno
 	}else if(type == 'cancel'){
 		$('.notification-link').first().text('Order')
 		$('.notification-link').first().remove()
-		}else{
+	}else if(type == 'orderOwner'){
+		$('.notification-link').first().text('View')
+		$('.notification-link').first().addClass('notification-invite')
+		$('.notification-link').first().attr('href', '/orders/' + order_id)
+	}else{
 		console.error('Notification type must be either "invite" or "join".')
 	}
 
@@ -389,11 +393,37 @@ function setNotification(type, text, order_id, date, user_image = "/images/unkno
 // setNotification("join", "Hamada joined your breakfast", 17, "23-02-2018 7:30 PM", "/images/unknown.jpg")
 // setNotification("invite", "Hamada joined your breakfast", 1, "23-02-2018 7:30 PM", "/images/unknown.jpg")
 
+function changeJoinNumber(order_id){
+	$("#join"+order_id).text("")
+}
 $('.notification-join').click(function(e){
     e.preventDefault();
     order_id = $(this).attr('orderid');
     user_id = $('#usr-id').text();
-		window.location.href = "/orders/" + order_id;
+		$.ajax({url: "/orders/" + order_id,
+				success: function(result){
+					// get invited users
+					// insert joied notifications (add new notification -> users_notification)
+					// send notifications to users using action cable
+					//userjoin
+
+						// id = $(this).attr('grpid');
+	token = $('meta[name="csrf-token"]').attr('content');
+	// if ($("#grps-list").children().length == 0) {
+	// 	$("#grps-list").html('dfdf')
+	// }
+	// $.post("/groups/"+id, {authenticity_token:token, _method:'delete'});
+
+						$.post("/userjoin/", {authenticity_token:token, order_id:order_id, user_id: user_id} , function(data, status){
+							console.log(data)
+					    // success('the group has updated successfully!')
+						});
+					//window.location.href = "/orders/" + order_id;
+		    },
+				error: function(jqXHR, textStatus, errorThrown) {
+		  		error("Error : This order has been canceled!");
+				}
+		 });
     console.log('Order ID : ', order_id, 'User ID: ', user_id)
 })
 

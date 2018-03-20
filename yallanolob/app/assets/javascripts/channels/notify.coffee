@@ -7,7 +7,7 @@ App.notify = App.cable.subscriptions.create "NotifyChannel",
     # Called when the subscription has been terminated by the server
 
   received: (data) ->
-    console.log data
+    console.log data['typ']
     if data['typ'] == "finished"
       takeIDFromNotification(data['orderId'],"finished")
 
@@ -15,6 +15,7 @@ App.notify = App.cable.subscriptions.create "NotifyChannel",
       takeIDFromNotification(data['orderId'],"cancel")
 
     setNotification data['typ'], data['message'] , data['orderId'], data['created_at']
+
 
 
 
