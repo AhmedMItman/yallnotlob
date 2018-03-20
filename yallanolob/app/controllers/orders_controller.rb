@@ -234,6 +234,7 @@ class OrdersController < ApplicationController
       ActionCable.server.broadcast "notify_channel_#{f.friend_id}", @notify
     end
     FriendOrder.where(order_id:@order.id).destroy_all
+    Item.where(order_id:@order.id).destroy_all
     @order.destroy
     # respond_to do |format|
     #   format.html { redirect_to order_url, notice: 'Order was successfully destroyed.' }

@@ -1,5 +1,5 @@
 class FriendshipsController < ApplicationController
-  before_action :check_isLogin
+
   before_action :set_friendship, only: [:show, :edit, :update]
 
   # GET /friendships
@@ -43,8 +43,8 @@ class FriendshipsController < ApplicationController
       end
     else
 
-      @isFriendBefore=Friendship.find_by_friend_id(@searchFriend.id)
-      if @isFriendBefore !=nil
+      @isFriendBefore=Friendship.where(user_id:current_user.id,friend_id:@searchFriend.id).exists?
+      if @isFriendBefore !=false
         respond_to do |format|
           format.html { redirect_to friendships_url, notice: 'S/He is already Your Friend.' }
           format.json { render :show, status: :created, location: @friendship }
@@ -95,12 +95,7 @@ class FriendshipsController < ApplicationController
   def set_friendship
     @friendship = Friendship.find(params[:id])
   end
-  def check_isLogin
-    if !current_user
-      redirect_to root_path
 
-    end
-  end
   # Never trust parameters from the scary internet, only allow the white list through.
   def friendship_params
     params.require(:friendship).permit(:user_id, :friend_id)
