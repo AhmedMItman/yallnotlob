@@ -16,8 +16,9 @@ end
 
 def get_user_notifications
 	if current_user
-		sql = "select notifications.id, notifications.message, notifications.from, notifications.type, notifications.orderId, notifications.created_at from notifications, notifications_users where notifications.id = notifications_users.notification_id and user_id = " + current_user.id.to_s + " order by created_at desc"
+		sql = "select notifications.id, notifications.message, notifications.from, notifications.typ, notifications.orderId, notifications.created_at from notifications, user_notifications where notifications.id = user_notifications.notification_id and user_id = " + current_user.id.to_s + " order by created_at desc"
 		@notifications = ActiveRecord::Base.connection.execute(sql)
+    # @notification = Notification.all
 	end
 	@notifications
 end

@@ -4,7 +4,11 @@ class UserNotificationsController < ApplicationController
   # GET /user_notifications
   # GET /user_notifications.json
   def index
+    if current_user
     @user_notifications = UserNotification.all
+  else
+      redirect_to '/users/sign_in'
+    end
   end
 
   # GET /user_notifications/1

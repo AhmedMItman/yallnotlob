@@ -4,7 +4,11 @@ class ItemsController < ApplicationController
   # GET /items
   # GET /items.json
   def index
+    if current_user
     @items = Item.all
+  else
+      redirect_to '/users/sign_in'
+    end
   end
 
   # GET /items/1

@@ -14,15 +14,17 @@
 
   <tbody>
     <% @orders.each do |order| %>
+
+
       <tr>
         <td><%= order.resturant %></td>
         <td><%= order.typ %></td>
-        <td class="Orderstatus"><%= order.statu %></td>
+        <td class="Orderstatus" id= <%= order.id %> >  <%= order.statu %></td>
         <td><%= order.user.name %></td>
         <td><%= link_to 'Show', order %></td>
         <% if current_user.name == order.user.name%>
           <% if order.statu == "Waiting..." %>
-        <td class="finishOrder" to=<%= order.id %> > <a>Finish</a></td>
+        <td class="finishOrder" id="finish" to=<%= order.id %> > <a>Finish</a></td>
           <td class="DeleteOrder" to=<%= order.id %> > <a>Remove</a></td>
             <% end %>
         <% end %>
@@ -31,10 +33,11 @@
 
 
     <% @inivtedOrder.each do |order| %>
+
     <tr>
       <td><%= order.resturant %></td>
       <td><%= order.typ %></td>
-      <td class="Orderstatus"><%= order.statu %></td>
+      <td class="Orderstatus" id= <%= order.id %>><%= order.statu %></td>
       <td><%= order.user.name %></td>
       <td><%= link_to 'Show', order %></td>
       <% end %>

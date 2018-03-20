@@ -6,9 +6,11 @@ Rails.application.routes.draw do
   resources :friendships
   resources :home
 
-  # devise/sessions#destroy
+
+  get 'friends/index'
   get 'home/index'
   get 'friends/', to: 'friends#index'
+  post 'userjoin/', to: 'orders#join'
   get 'groupfriends', to: 'groups#groupfriends'
   post 'remove_friend_from_group', to: 'groups#remove_friend_from_group'
   post 'add_friend_to_group', to: 'groups#add_friend_to_group'

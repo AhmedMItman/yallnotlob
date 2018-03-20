@@ -4,8 +4,11 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-
+if current_user
       @users = User.all
+    else
+        redirect_to '/users/sign_in'
+      end
   end
 
   # GET /users/1

@@ -1,14 +1,51 @@
 class OrdersController < ApplicationController
-  before_action :check_isLogin
   before_action :set_order, only: [:show, :edit, :destroy]
   # GET /orders
   # GET /orders.json
   def index
 
-
+if current_user
     @inivtedOrder = Order.joins(:friend_orders).where(friend_orders:{friend_id:current_user.id}).paginate(:page => params[:page], :per_page => 3)
     @orders = Order.where(user_id:current_user.id).paginate(:page => params[:page], :per_page => 3)
+  else
+      redirect_to '/users/sign_in'
+    end
+  end
 
+  def join
+    orderid = params['order_id']
+    joinerId = params['user_id']
+    puts "================================"
+    @joiner = User.find_by_id(joinerId)
+    puts @joiner.name
+    puts "================================"
+    @isJoined = Notification.find_by(from:@joiner.name,orderId: orderid,typ:'join')
+    if @isJoined == nil
+        sql = "select * from user_notifications, notifications where user_notifications.notification_id = notifications.id and notifications.typ = 'invite' and notifications.orderId = #{orderid} and user_id <> #{joinerId}"
+        @users = ActiveRecord::Base.connection.execute(sql)
+        @invitor= Notification.where(orderId: orderid,typ:'invite')
+        puts @invitor[0].from
+        puts "================================"
+        @invitor=User.find_by_name(@invitor[0].from)
+        puts @invitor.name
+        @notify = Notification.create(message:"#{@joiner.name} has accepted your Invitation",from:@joiner.name ,typ:"orderOwner",orderId: orderid)
+        UserNotification.create(user_id: @invitor.id,notification_id: @notify.id)
+        ActionCable.server.broadcast "notify_channel_#{@invitor.id}", @notify
+        puts ""
+
+
+        @users.each do |user|
+          @notify = Notification.create(message:"#{@joiner.name} accepted #{@invitor.name} Invitation",from:@joiner.name ,typ:"join",orderId: orderid)
+          #               # puts @notify
+          UserNotification.create(user_id: user[1],notification_id: @notify.id).save
+          ActionCable.server.broadcast "notify_channel_#{user[1]}", @notify
+
+        end
+
+
+        render json: params
+      else
+      end
   end
 
   # GET /orders/1
@@ -23,6 +60,10 @@ class OrdersController < ApplicationController
     print(friend.friend_id)
     @user=User.find(friend.friend_id)
     @allinvitedFriends[friend.friend_id]=[@user.name, @user.image]
+    sql = "select count(*) from notifications where typ='join' and orderId = #{@order.id}"
+    @joinersNum = ActiveRecord::Base.connection.execute(sql).first()[0]
+    puts @joinersNum
+
     end
   end
 
@@ -54,8 +95,11 @@ class OrdersController < ApplicationController
   # POST /orders.json
   def create
 
-     # print("hhhhhhhhhhhhhhhhhh"+params[:order_resturant])
-    @order = Order.new(resturant:params[:order_resturant],menu:params[:order_menu],typ:params[:order_typ],statu:params[:order_statu],user_id:current_user.id)
+
+    # print("hhhhhhhhhhhhhhhhhh"+params[:order_resturant])
+    print("pppppppppppppppppppppppppppppppppppppp")
+    print(params[:order_image])
+    @order = Order.new(resturant:params[:order_resturant],menu:params[:order_image],typ:params[:order_typ],statu:params[:order_statu],user_id:current_user.id)
     @order.save
 
     @isGroup=Group.find_by_name(params[:order_friendName])
@@ -78,6 +122,11 @@ class OrdersController < ApplicationController
 
         @friendsOfGroup.push(User.find(f[0]))
 
+        @notify = Notification.create(message:"#{current_user.name} Invites All  The #{@isGroup.name} group Member",from:current_user.name ,typ:"invite",orderId:@order.id)
+                      # puts @notify
+        UserNotification.create(user_id: f[0],notification_id: @notify.id).save
+        ActionCable.server.broadcast "notify_channel_#{f[0]}", @notify
+
       end
 
       # print(@allFreindinGroup)
@@ -85,19 +134,27 @@ class OrdersController < ApplicationController
     else
 
       @isUser=User.find_by_name(params[:order_friendName])
+
       print(params[:order_friendName])
       if @isUser !=nil
-        @isOrderedBefore = FriendOrder.where(friend_id:@isUser.id , order_id:@order.id)
+        #@isFriendBefore = FriendOrder.where(friend_id:@isUser.id , order_id:@order.id)
+
         # if @isOrderedBefore ==nil
-        # @isFriendBefore=Friendship.where(user_id:current_user.id,friend_id:@isUser.id).exists?(conditions = :none)
+         @isFriendBefore=Friendship.where(user_id:current_user.id,friend_id:@isUser.id).exists?(conditions = :none)
         if @isFriendBefore == true
+
           @orderWithFriends = FriendOrder.new(order_id:@order.id,friend_id:@isUser.id)
           @orderWithFriends.save
         # end
-        end
-      # end
+          @notify = Notification.create(message:"#{current_user.name} Invites You to join the order",from:current_user.name ,typ:"invite",orderId:@order.id)
+                      # puts @notify
+          UserNotification.create(user_id: @isUser.id,notification_id: @notify.id).save
+          ActionCable.server.broadcast "notify_channel_#{@isUser.id}", @notify
 
-    end
+        end
+       end
+
+      # end
 
 
 
@@ -105,18 +162,18 @@ class OrdersController < ApplicationController
     params[:order_allFriends].each do  |f|
         print(f)
         @isUser=User.find_by_id(f)
-        # if @isUser != nil
-        #   print("mmmmmmmmmmmmmmmmmmmmmmmmmmmmmm")
-        #   @isOrderedBefore = FriendOrder.where(friend_id:@isUser.id , order_id:@order.id)
-        #   print("lllllllllllllllllllll")
-        #   print(@isOrderedBefore)
-        #   if @isOrderedBefore ==nil
-        #     print("nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn")
+
           @isFriendBefore=Friendship.where(user_id:current_user.id,friend_id:f).exists?(conditions = :none)
           if @isFriendBefore == true
             print(@order.id)
               @orderWithFriends = FriendOrder.new(order_id:@order.id,friend_id:f)
-            @orderWithFriends.save
+
+              @orderWithFriends.save
+              @notify = Notification.create(message:"#{current_user.name} Invites You to join the order ",from:current_user.name ,typ:"invite",orderId:@order.id)
+                            # puts @notify
+              UserNotification.create(user_id: f,notification_id: @notify.id)
+              ActionCable.server.broadcast "notify_channel_#{f}", @notify
+
       end
           # end
         end
@@ -133,13 +190,24 @@ class OrdersController < ApplicationController
       render json: {friendsOfGroup:@friendsOfGroup}
     end
 
-  end
 
+  end
   # PATCH/PUT /orders/1
   # PATCH/PUT /orders/1.json
   def update
-    print("ffffffffffffffffffffffff")
+
     Order.where(id:params[:id]).update_all(statu:"Finished")
+    print(params[:id])
+    @allusers = FriendOrder.where(order_id:params[:id])
+
+    @allusers.each do |f|
+      print(f.friend_id)
+      @notify = Notification.create(message:"#{current_user.name}'s Order is Done",from:current_user.name ,typ:"finished",orderId:params[:id])
+                    # puts @notify
+
+      UserNotification.create(user_id: f.friend_id,notification_id: @notify.id)
+      ActionCable.server.broadcast "notify_channel_#{f.friend_id}", @notify
+    end
     # respond_to do |format|
     #   if @order.update(order_params)
     #     format.html { redirect_to @order, notice: 'Order was successfully updated.' }
@@ -154,7 +222,21 @@ class OrdersController < ApplicationController
   # DELETE /orders/1
   # DELETE /orders/1.json
   def destroy
+    id=@order.id
+    print("idddddddddddddddddddddddddddd")
+    print(id)
+    @allusers = FriendOrder.where(order_id:id)
+
+    print("sssssssssssssssssssssssssssssss")
+    @allusers.each do |f|
+      print(f.friend_id)
+      print("yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy")
+      @notify = Notification.create(message:"#{current_user.name} has canceled his order",from:current_user.name ,typ:"cancel",orderId:id)
+      UserNotification.create(user_id: f.friend_id,notification_id: @notify.id)
+      ActionCable.server.broadcast "notify_channel_#{f.friend_id}", @notify
+    end
     FriendOrder.where(order_id:@order.id).destroy_all
+    Item.where(order_id:@order.id).destroy_all
     @order.destroy
     # respond_to do |format|
     #   format.html { redirect_to order_url, notice: 'Order was successfully destroyed.' }
@@ -165,17 +247,22 @@ class OrdersController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_order
-      @order = Order.find(params[:id])
-    end
-    def check_isLogin
-      if !current_user
-        redirect_to root_path
 
+      print(params[:id])
+      print("hamdddddddddddddddddddddddddddddddddddddddddddddddddddy")
+
+      tes = Order.find_by(id:params[:id])
+      if tes !=nil
+        @order = Order.find(params[:id])
+      else
+        flash[:notice] = 'hahahahahaha'
+        # redirect_to '/'
       end
-      end
+    end
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def order_params
-      params.require(:order).permit(:resturant, :menu, :typ, :statu, :user_id,:test)
+      params.require(:order).permit(:resturant, :image, :typ, :statu, :user_id,:test)
 
     end
 end

@@ -6,7 +6,11 @@ class GroupsController < ApplicationController
   # GET /groups.json
   def index
     # @groups = Group.all
+    if current_user
     @groups = Group.where(user_id: current_user.id)
+  else
+      redirect_to '/users/sign_in'
+    end
   end
 
   def userfriends
@@ -48,7 +52,7 @@ class GroupsController < ApplicationController
     end
     render json: result
 # <%= image_tag current_user.image.url(:medium) %>
-  
+
   end
 
   def remove_friend_from_group
@@ -80,9 +84,9 @@ class GroupsController < ApplicationController
       end
     end
 
-    
 
-    
+
+
   end
 
   # GET /groups/1
