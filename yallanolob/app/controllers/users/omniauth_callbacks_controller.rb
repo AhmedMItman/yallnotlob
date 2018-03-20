@@ -1,16 +1,18 @@
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
-end
-
-def sign_in_with(provider_name)
+  # def facebook
+  #    @user = User.from_omniauth(request.env["omniauth.auth"])
+  #    sign_in_and_redirect @user      
+  # end
+  def sign_in_with(provider_name)
     @user = User.from_omniauth(request.env["omniauth.auth"])
     sign_in_and_redirect @user, :event => :authentication
     set_flash_message(:notice, :success, :kind => provider_name) if is_navigational_format?
-end
+  end
 
-def Google
-  sign_in_with "Google"
-end
-
-def facebook
-  sign_in_with "facebook"
+ def facebook
+	  sign_in_with "facebook"
+	end
+	def google_oauth2
+	    sign_in_with "google"
+	end
 end
